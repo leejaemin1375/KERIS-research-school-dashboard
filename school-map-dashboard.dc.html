@@ -75,37 +75,37 @@
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:0.8fr 1.55fr;gap:16px;align-items:stretch;">
+    <div style="display:grid;grid-template-columns:0.8fr 1.55fr;gap:16px;align-items:start;">
 
-      <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
+      <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
           <div style="font-size:15.5px;font-weight:700;color:#1e2124;">{{ natLabel }}</div>
         </div>
-        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;">
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:12px;">
         <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
-          <div style="position:relative;width:172px;height:172px;flex:none;">
-            <svg viewBox="0 0 148 148" style="width:172px;height:172px;transform:rotate(-90deg);display:block;">
+          <div style="position:relative;width:132px;height:132px;flex:none;">
+            <svg viewBox="0 0 148 148" style="width:132px;height:132px;transform:rotate(-90deg);display:block;">
               <circle cx="74" cy="74" r="56" fill="none" stroke="#eef2f7" stroke-width="22"></circle>
               <sc-for list="{{ donut }}" as="a" hint-placeholder-count="3">
                 <circle cx="74" cy="74" r="56" fill="none" stroke="{{ a.color }}" stroke-width="22" stroke-linecap="butt" stroke-dasharray="{{ a.dash }}" stroke-dashoffset="{{ a.offset }}" opacity="{{ a.opacity }}"></circle>
               </sc-for>
             </svg>
             <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
-              <div style="font-size:38px;font-weight:700;letter-spacing:-0.03em;line-height:1;">{{ natTotal }}</div>
-              <div style="font-size:14px;color:#4a5157;">개교</div>
+              <div style="font-size:31px;font-weight:700;letter-spacing:-0.03em;line-height:1;">{{ natTotal }}</div>
+              <div style="font-size:13px;color:#4a5157;">개교</div>
             </div>
           </div>
-          <div style="flex:1 1 130px;min-width:130px;display:flex;flex-direction:column;gap:10px;">
+          <div style="flex:1 1 130px;min-width:130px;display:flex;flex-direction:column;gap:8px;">
             <sc-for list="{{ typeBars }}" as="tb" hint-placeholder-count="3">
               <div style="display:flex;align-items:center;gap:8px;">
-                <span style="width:12px;height:12px;border-radius:0;flex:none;background:{{ tb.color }};"></span>
-                <span style="font-size:15.5px;color:#1e2124;flex:1;min-width:0;white-space:nowrap;">{{ tb.label }}</span>
-                <span style="font-size:21px;font-weight:700;letter-spacing:-0.02em;">{{ tb.value }}</span>
+                <span style="width:11px;height:11px;border-radius:0;flex:none;background:{{ tb.color }};"></span>
+                <span style="font-size:15px;color:#1e2124;flex:1;min-width:0;white-space:nowrap;">{{ tb.label }}</span>
+                <span style="font-size:19px;font-weight:700;letter-spacing:-0.02em;">{{ tb.value }}</span>
               </div>
             </sc-for>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:9px;border-top:1px solid #e2e5e8;padding-top:14px;">
+        <div style="display:flex;flex-direction:column;gap:7px;border-top:1px solid #e2e5e8;padding-top:11px;">
           <sc-for list="{{ natStats }}" as="st" hint-placeholder-count="3">
             <div style="display:flex;align-items:baseline;gap:10px;">
               <span style="font-size:14.5px;color:#3a4045;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ st.label }}</span>
@@ -127,14 +127,14 @@
         </div>
 
         <sc-if value="{{ isLevelTab }}" hint-placeholder-val="{{ true }}">
-          <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
+          <div style="display:flex;flex-direction:column;">
             <sc-for list="{{ levelBars }}" as="lb" hint-placeholder-count="3">
               <div onClick="{{ lb.onClick }}" style="{{ lb.rowStyle }}">
                 <div style="display:flex;align-items:baseline;gap:8px;">
-                  <span style="font-size:16px;color:#1e2124;flex:1;">{{ lb.label }}</span>
-                  <span style="font-size:21px;font-weight:700;letter-spacing:-0.01em;">{{ lb.value }}</span>
+                  <span style="font-size:15px;color:#1e2124;flex:1;">{{ lb.label }}</span>
+                  <span style="font-size:19px;font-weight:700;letter-spacing:-0.01em;">{{ lb.value }}</span>
                 </div>
-                <div style="height:18px;border-radius:0;background:#f4f5f6;overflow:hidden;">
+                <div style="height:12px;border-radius:0;background:#f4f5f6;overflow:hidden;">
                   <div style="height:100%;border-radius:0;width:{{ lb.pct }}%;background:{{ lb.color }};"></div>
                 </div>
               </div>
@@ -143,34 +143,14 @@
         </sc-if>
 
         <sc-if value="{{ isOfficeTab }}" hint-placeholder-val="{{ false }}">
-          <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
+          <div style="display:flex;flex-direction:column;">
             <sc-for list="{{ officeBars }}" as="ob" hint-placeholder-count="6">
               <div style="{{ ob.rowStyle }}">
-                <span style="font-size:14px;color:#5b6469;width:20px;flex:none;">{{ ob.rank }}</span>
-                <span style="font-size:15.5px;color:#1e2124;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ob.label }}</span>
-                <span style="font-size:20px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ ob.value }}</span>
+                <span style="font-size:13.5px;color:#5b6469;width:20px;flex:none;">{{ ob.rank }}</span>
+                <span style="font-size:15px;color:#1e2124;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ob.label }}</span>
+                <span style="font-size:18px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ ob.value }}</span>
               </div>
             </sc-for>
-          </div>
-        </sc-if>
-
-        <sc-if value="{{ isRegionTab }}" hint-placeholder-val="{{ false }}">
-          <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;">
-            <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:7px;overflow-y:auto;overflow-x:hidden;padding-right:10px;">
-              <sc-for list="{{ ranks }}" as="r" hint-placeholder-count="8">
-                <div onClick="{{ r.onClick }}" style="{{ r.rowStyle }}">
-                  <span style="{{ r.nameStyle }}">{{ r.name }}</span>
-                  <span style="flex:1;min-width:0;display:flex;height:16px;border-radius:0;overflow:hidden;background:#eef2f7;">
-                    <span style="{{ r.barStyle }}">
-                      <sc-for list="{{ r.segs }}" as="g" hint-placeholder-count="3">
-                        <span style="{{ g.style }}"></span>
-                      </sc-for>
-                    </span>
-                  </span>
-                  <span style="font-size:16px;font-weight:700;width:42px;text-align:right;flex:none;">{{ r.total }}</span>
-                </div>
-              </sc-for>
-            </div>
           </div>
         </sc-if>
       </div>
@@ -213,6 +193,27 @@
       </div>
 
       <div style="flex:1 1 420px;min-width:340px;display:flex;flex-direction:column;gap:16px;">
+        <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:16px 20px 12px;display:flex;flex-direction:column;gap:9px;flex:none;">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+            <div style="font-size:15.5px;font-weight:700;color:#1e2124;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ rankTitle }}</div>
+            <div style="font-size:13px;color:#5b6469;white-space:nowrap;flex:none;">{{ rankHint }}</div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:4px;max-height:212px;overflow-y:auto;overflow-x:hidden;padding-right:8px;">
+            <sc-for list="{{ ranks }}" as="r" hint-placeholder-count="8">
+              <div onClick="{{ r.onClick }}" style="{{ r.rowStyle }}">
+                <span style="{{ r.nameStyle }}">{{ r.name }}</span>
+                <span style="flex:1;min-width:0;display:flex;height:14px;border-radius:0;overflow:hidden;background:#eef2f7;">
+                  <span style="{{ r.barStyle }}">
+                    <sc-for list="{{ r.segs }}" as="g" hint-placeholder-count="3">
+                      <span style="{{ g.style }}"></span>
+                    </sc-for>
+                  </span>
+                </span>
+                <span style="font-size:15px;font-weight:700;width:40px;text-align:right;flex:none;">{{ r.total }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
         <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:18px 20px 12px;display:flex;flex-direction:column;min-height:0;flex:1;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
             <div style="font-size:15.5px;font-weight:700;color:#1e2124;">계층 탐색</div>
@@ -290,6 +291,20 @@ class Component extends DCLogic {
       natLabel: '', natShare: '', natTotal: '', natNote: '', levelNote: '', officeTitle: '', officeNote: '',
       mapHint: '', rankTitle: '', rankHint: '', rankTop: '', rankBottom: '', footNote: '', focus: {}, mapRef: this.mapRef };
     const C = d.C, TAG = d.TAG, types = ['연구학교', '선도학교', '중점학교'];
+    const ZONE = {
+      서울: '수도권', 경기: '수도권', 인천: '수도권',
+      강원: '강원권',
+      충북: '충청권', 충남: '충청권', 대전: '충청권',
+      전북: '호남권', 전남: '호남권',
+      경북: '영남권', 대구: '영남권', 경남: '영남권', 부산: '영남권',
+      제주: '제주권'
+    };
+    const ZONE_COLOR = {
+      수도권: '#c0504d', 강원권: '#e08a2e', 충청권: '#5566b5',
+      호남권: '#8e6cc0', 영남권: '#cc5f96', 제주권: '#3aa5a0'
+    };
+    const regionColor = function (r) { return ZONE_COLOR[ZONE[r]] || '#8d959b'; };
+    const LV_BAR = ['#9aa7b8', '#6b7c93', '#44546a'];
     const q = s.query.trim();
     const pick = s.type === '전체' ? types : [s.type];
     const MIX = { 연구학교: [0.38, 0.34, 0.28], 선도학교: [0.44, 0.32, 0.24], 중점학교: [0.14, 0.26, 0.60] };
@@ -342,7 +357,7 @@ class Component extends DCLogic {
       if (q && !openS && !matches(sd) && !offices.some(matches) && !offices.some((o) => schoolsOf(o.name).length)) return;
       tree.push({
         depth: 0, kind: '교육청', name: sd.name + '교육청', sub: '지원청 ' + sd.offices + '개',
-        tag: sum(sd).toLocaleString() + '개교', color: '#8d959b', open: openS, hasKids: true, sel: openS && !s.openOffice,
+        tag: sum(sd).toLocaleString() + '개교', color: regionColor(sd.name), open: openS, hasKids: true, sel: openS && !s.openOffice,
         onClick: function () { self.setState({ openSido: openS ? null : sd.name, openOffice: null, sel: null, seg: openS ? 0 : 1 }); }
       });
       if (!openS) return;
@@ -350,7 +365,7 @@ class Component extends DCLogic {
         const openO = s.openOffice === o.name;
         tree.push({
           depth: 1, kind: '지원청', name: o.name, sub: '',
-          tag: sum(o) + '개교', color: '#8d959b', open: openO, hasKids: true, sel: openO,
+          tag: sum(o) + '개교', color: regionColor(o.region), open: openO, hasKids: true, sel: openO,
           onClick: function () { self.setState({ openOffice: openO ? null : o.name, sel: null }); }
         });
         if (!openO) return;
@@ -404,7 +419,7 @@ class Component extends DCLogic {
             id: (isSido ? 'sido:' + o.name : 'office:' + o.name),
             lat: o.lat, lng: o.lng,
             r: 7 + Math.round(sum(o) / maxT * 16),
-            color: '#8d959b', dim: s.type !== '전체' && o[s.type] === 0,
+            color: isSido ? regionColor(o.name) : regionColor(o.region), dim: s.type !== '전체' && o[s.type] === 0,
             active: !!(focusObj && o.name === focusObj.name && (s.openSido || s.openOffice)),
             label: isSido ? o.name : o.short,
             title: (isSido ? o.name + '교육청' : o.name) + ' · ' + sum(o) + '개교'
@@ -497,9 +512,9 @@ class Component extends DCLogic {
       return {
         label: n, value: lvTotals[i].toLocaleString(), share: Math.round(lvTotals[i] / lvSum * 100) + '%',
         pct: Math.round(lvTotals[i] / lvMax * 100),
-        color: on ? ['#1c589c', '#228738', '#9e6a00'][i] : '#cdd1d5',
+        color: on ? LV_BAR[i] : '#cdd1d5',
         onClick: function () { self.setState({ level: s.level === lvKeys[i] ? '전체' : lvKeys[i] }); },
-        rowStyle: 'display:flex;flex-direction:column;justify-content:center;gap:8px;cursor:pointer;flex:1;min-height:0;padding:12px 6px;'
+        rowStyle: 'display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:8px 6px;'
           + (i ? 'border-top:1px solid #e2e5e8;' : '')
           + (s.level === lvKeys[i] ? 'background:#eef2f7;' : (on ? '' : 'opacity:0.6;'))
       };
@@ -512,7 +527,7 @@ class Component extends DCLogic {
       return {
         label: r.name, value: r.v.toLocaleString(), rank: ri + 1,
         share: Math.round(r.v / (scopeTotal || 1) * 100) + '%',
-        rowStyle: 'display:flex;align-items:center;gap:10px;padding:11px 4px;flex:1;min-height:0;'
+        rowStyle: 'display:flex;align-items:center;gap:10px;padding:7px 4px;'
           + (ri ? 'border-top:1px solid #f4f5f6;' : '')
       };
     });
@@ -521,9 +536,7 @@ class Component extends DCLogic {
     const DIST = [
       { label: '학교급', title: scopeName + ' 학교급별 지정 분포', note: '최다 ' + lvNames[lvTotals.indexOf(lvMax)] },
       { label: '교육지원청', title: (s.openSido ? s.openSido + ' ' : '전국 ') + '교육지원청별 지정 순위 (상위 6)',
-        note: offRows.length > 1 ? '상위–하위 격차 ' + gapRatio : '단일 지원청' },
-      { label: '지역', title: s.openSido ? s.openSido + ' 지원청별 지정 분포' : '시도교육청별 지정 분포',
-        note: s.openSido ? '지원청 클릭 시 이동' : '시도 클릭 시 이동' }
+        note: offRows.length > 1 ? '상위–하위 격차 ' + gapRatio : '단일 지원청' }
     ];
     const distIdx = Math.min(s.dist, DIST.length - 1);
 
