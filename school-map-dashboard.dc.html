@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#f6f5f3; font-family:'Noto Sans KR', -apple-system, sans-serif; -webkit-font-smoothing:antialiased; }
+  a { color:#2f6fb3; text-decoration:none; }
+  a:hover { color:#1f4f83; }
+  *::-webkit-scrollbar { width:8px; }
+  *::-webkit-scrollbar-thumb { background:#d8d5d0; border-radius:4px; }
+</style>
+</helmet>
+<div style="min-height:100vh;padding:28px 32px 40px;color:#2b2a28;">
+  <div style="max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:16px;">
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:12px;letter-spacing:0.12em;color:#8a8579;font-weight:500;">교육정책 모니터링</div>
+        <div style="font-size:26px;font-weight:700;letter-spacing:-0.02em;">연구·선도·중점학교 지정 현황</div>
+      </div>
+      <div style="display:flex;gap:6px;background:#eceae5;padding:4px;border-radius:10px;">
+        <div style="padding:8px 18px;border-radius:7px;background:#fff;font-size:14px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,0.06);">현황 지도</div>
+        <a href="./policy-evaluation.dc.html" style="padding:8px 18px;border-radius:7px;font-size:14px;font-weight:500;color:#7c7669;cursor:pointer;" style-hover="color:#2b2a28;">정책평가 결과</a>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;font-weight:700;color:#8a8579;letter-spacing:0.04em;">유형</span>
+        <div style="display:flex;gap:6px;">
+          <sc-for list="{{ typeChips }}" as="chip" hint-placeholder-count="4">
+            <div onClick="{{ chip.onClick }}" style="{{ chip.style }}">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ chip.dot }};display:inline-block;"></span>
+              <span>{{ chip.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="width:1px;height:28px;background:#eae7e1;"></div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-size:12px;font-weight:700;color:#8a8579;letter-spacing:0.04em;">학교급</span>
+        <select value="{{ level }}" onChange="{{ onLevel }}" style="appearance:none;border:1px solid #e0dcd5;background:#fbfaf8;border-radius:8px;padding:9px 14px;font-size:13px;font-family:inherit;color:#2b2a28;min-width:120px;">
+          <option value="전체">학교급 전체</option>
+          <option value="초">초등학교</option>
+          <option value="중">중학교</option>
+          <option value="고">고등학교</option>
+        </select>
+      </div>
+      <div style="flex:1 1 320px;min-width:280px;display:flex;justify-content:flex-end;gap:10px;align-items:center;">
+        <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="학교명 · 교육지원청 검색" style="border:1px solid #e0dcd5;background:#fbfaf8;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;flex:1 1 auto;max-width:240px;min-width:160px;outline:none;" style-focus="border-color:#b9c9dc;background:#fff;">
+        <div onClick="{{ onReset }}" style="font-size:12px;color:#8a8579;cursor:pointer;padding:8px 10px;border-radius:7px;white-space:nowrap;flex:none;" style-hover="background:#f2f0ec;color:#2b2a28;">초기화</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:0.8fr 1.55fr;gap:16px;align-items:stretch;">
+
+      <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+          <div style="font-size:12.5px;font-weight:700;color:#8a8579;letter-spacing:0.03em;">{{ natLabel }}</div>
+          <div style="font-size:11px;color:#a39d92;white-space:nowrap;">{{ natShare }}</div>
+        </div>
+        <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;">
+        <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+          <div style="position:relative;width:132px;height:132px;flex:none;">
+            <svg viewBox="0 0 148 148" style="width:132px;height:132px;transform:rotate(-90deg);display:block;">
+              <circle cx="74" cy="74" r="56" fill="none" stroke="#f2f0ec" stroke-width="20"></circle>
+              <sc-for list="{{ donut }}" as="a" hint-placeholder-count="3">
+                <circle cx="74" cy="74" r="56" fill="none" stroke="{{ a.color }}" stroke-width="20" stroke-linecap="butt" stroke-dasharray="{{ a.dash }}" stroke-dashoffset="{{ a.offset }}" opacity="{{ a.opacity }}"></circle>
+              </sc-for>
+            </svg>
+            <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
+              <div style="font-size:28px;font-weight:700;letter-spacing:-0.03em;line-height:1;">{{ natTotal }}</div>
+              <div style="font-size:11px;color:#8a8579;">개교</div>
+            </div>
+          </div>
+          <div style="flex:1 1 130px;min-width:130px;display:flex;flex-direction:column;gap:10px;">
+            <sc-for list="{{ typeBars }}" as="tb" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:8px;">
+                <span style="width:9px;height:9px;border-radius:3px;flex:none;background:{{ tb.color }};"></span>
+                <span style="font-size:12.5px;color:#5c574d;flex:1;min-width:0;white-space:nowrap;">{{ tb.label }}</span>
+                <span style="font-size:15px;font-weight:700;letter-spacing:-0.02em;">{{ tb.value }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:9px;border-top:1px solid #f0eee9;padding-top:14px;">
+          <sc-for list="{{ natStats }}" as="st" hint-placeholder-count="3">
+            <div style="display:flex;align-items:baseline;gap:10px;">
+              <span style="font-size:12px;color:#6b6558;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ st.label }}</span>
+              <span style="font-size:14px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ st.value }}</span>
+            </div>
+          </sc-for>
+        </div>
+        </div>
+      </div>
+
+        <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;">
+          <div style="font-size:12.5px;font-weight:700;color:#8a8579;letter-spacing:0.03em;min-width:0;">{{ distTitle }}</div>
+          <div style="display:flex;gap:4px;background:#eceae5;padding:4px;border-radius:9px;flex:none;">
+            <sc-for list="{{ distTabs }}" as="t" hint-placeholder-count="3">
+              <div onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</div>
+            </sc-for>
+          </div>
+        </div>
+
+        <sc-if value="{{ isLevelTab }}" hint-placeholder-val="{{ true }}">
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-around;gap:14px;">
+            <sc-for list="{{ levelBars }}" as="lb" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:6px;">
+                <div style="display:flex;align-items:baseline;gap:8px;">
+                  <span style="font-size:12.5px;color:#5c574d;flex:1;">{{ lb.label }}</span>
+                  <span style="font-size:14px;font-weight:700;letter-spacing:-0.01em;">{{ lb.value }}</span>
+                  <span style="font-size:11.5px;color:#6b6558;width:36px;text-align:right;">{{ lb.share }}</span>
+                </div>
+                <div style="height:10px;border-radius:5px;background:#f4f3f0;overflow:hidden;">
+                  <div style="height:100%;border-radius:5px;width:{{ lb.pct }}%;background:{{ lb.color }};"></div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isOfficeTab }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
+            <sc-for list="{{ officeBars }}" as="ob" hint-placeholder-count="6">
+              <div onClick="{{ ob.onClick }}" style="{{ ob.rowStyle }}">
+                <span style="font-size:11.5px;color:#a39d92;width:16px;flex:none;">{{ ob.rank }}</span>
+                <span style="font-size:12.5px;color:#4c473f;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ob.label }}</span>
+                <span style="font-size:14px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ ob.value }}</span>
+                <span style="font-size:11.5px;color:#6b6558;width:38px;text-align:right;flex:none;">{{ ob.share }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ isRegionTab }}" hint-placeholder-val="{{ false }}">
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:10px;">
+            <div style="flex:1;min-height:0;display:flex;flex-direction:column;gap:7px;overflow-y:auto;overflow-x:hidden;padding-right:10px;">
+              <sc-for list="{{ ranks }}" as="r" hint-placeholder-count="8">
+                <div onClick="{{ r.onClick }}" style="{{ r.rowStyle }}">
+                  <span style="{{ r.nameStyle }}">{{ r.name }}</span>
+                  <span style="flex:1;min-width:0;display:flex;height:11px;border-radius:3px;overflow:hidden;background:#f4f2ee;">
+                    <span style="{{ r.barStyle }}">
+                      <sc-for list="{{ r.segs }}" as="g" hint-placeholder-count="3">
+                        <span style="{{ g.style }}"></span>
+                      </sc-for>
+                    </span>
+                  </span>
+                  <span style="font-size:12px;font-weight:700;width:34px;text-align:right;flex:none;">{{ r.total }}</span>
+                  <span style="{{ r.flagStyle }}">{{ r.flag }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <div style="border-top:1px solid #f0eee9;padding-top:10px;display:flex;justify-content:space-between;gap:10px;font-size:11.5px;color:#6b6558;">
+              <span>최다 <strong style="color:#2b2a28;font-weight:700;">{{ rankTop }}</strong></span>
+              <span>최소 <strong style="color:#2b2a28;font-weight:700;">{{ rankBottom }}</strong></span>
+            </div>
+          </div>
+        </sc-if>
+      </div>
+
+  </div>
+
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:stretch;">
+
+      <div style="flex:1 1 560px;min-width:0;background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:18px 20px 16px;display:flex;flex-direction:column;gap:12px;">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+          <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
+            <sc-for list="{{ crumbs }}" as="cr" hint-placeholder-count="1">
+              <div onClick="{{ cr.onClick }}" style="{{ cr.style }}">{{ cr.label }}</div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <sc-if value="{{ showUnitToggle }}" hint-placeholder-val="{{ true }}">
+              <div onClick="{{ onUnitToggle }}" style="{{ unitToggleStyle }}">{{ unitToggleLabel }}</div>
+            </sc-if>
+            <div style="font-size:12px;color:#8a8579;white-space:nowrap;">{{ mapHint }}</div>
+          </div>
+        </div>
+        <div style="position:relative;flex:1;min-height:560px;border-radius:10px;background:#f4f3f0;border:1px solid #eae7e1;overflow:hidden;">
+          <iframe ref="{{ mapRef }}" src="./korea-map.html" title="대한민국 지정학교 분포 지도" style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
+          <div style="position:absolute;left:16px;bottom:14px;display:flex;gap:14px;background:rgba(255,255,255,0.9);border:1px solid #eae7e1;border-radius:8px;padding:8px 12px;">
+            <sc-for list="{{ legend }}" as="l" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#5c574d;">
+                <span style="width:9px;height:9px;border-radius:50%;background:{{ l.color }};"></span>
+                <span>{{ l.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <sc-if value="{{ showFocus }}" hint-placeholder-val="{{ true }}">
+            <div style="position:absolute;right:16px;top:16px;background:#fff;border:1px solid #e6e3dd;border-radius:10px;padding:12px 14px;box-shadow:0 6px 18px rgba(0,0,0,0.06);min-width:180px;">
+              <div style="font-size:11px;color:#a39d92;margin-bottom:4px;">{{ focus.kind }}</div>
+              <div style="font-size:13px;font-weight:700;margin-bottom:6px;">{{ focus.name }}</div>
+              <div style="font-size:12px;color:#6b6558;line-height:1.7;">연구 {{ focus.a }} · 선도 {{ focus.b }} · 중점 {{ focus.c }}</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+
+      <div style="flex:1 1 420px;max-width:500px;min-width:0;display:flex;flex-direction:column;gap:16px;">
+        <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:18px 20px 12px;display:flex;flex-direction:column;min-height:0;flex:1;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
+            <div style="font-size:13px;font-weight:700;color:#8a8579;letter-spacing:0.04em;">계층 탐색</div>
+            <div onClick="{{ onCollapse }}" style="font-size:11px;color:#8a8579;cursor:pointer;padding:4px 8px;border-radius:6px;" style-hover="background:#f2f0ec;color:#2b2a28;">모두 접기</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#b5afa3;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f0eee9;">
+            <span style="font-weight:700;color:#8a8579;">교육청</span>
+            <span>›</span>
+            <span>교육지원청</span>
+            <span>›</span>
+            <span>학교</span>
+          </div>
+          <div style="display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;flex:1;min-height:0;">
+            <sc-for list="{{ tree }}" as="n" hint-placeholder-count="10">
+              <div onClick="{{ n.onClick }}" style="{{ n.rowStyle }}">
+                <span style="{{ n.railStyle }}"></span>
+                <span style="{{ n.caretStyle }}">{{ n.caret }}</span>
+                <span style="{{ n.dotStyle }}"></span>
+                <div style="flex:1;min-width:0;">
+                  <div style="{{ n.nameStyle }}">{{ n.name }}</div>
+                  <div style="font-size:11px;color:#a39d92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ n.sub }}</div>
+                </div>
+                <span style="{{ n.tagStyle }}">{{ n.tag }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="border-top:1px solid #f0eee9;margin-top:8px;padding:10px 0 4px;font-size:11px;color:#a39d92;text-align:right;">{{ footNote }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { d: null, dist: 0, seg: 0, openSido: null, openOffice: null, type: '전체', level: '전체', query: '', sel: null };
+
+  mapRef = React.createRef();
+
+  componentDidMount() {
+    import('./gov-data.js').then((m) => this.setState({ d: m }));
+    this._onMsg = (ev) => {
+      const m = ev.data || {};
+      if (m.type === 'map-ready') { this._mapReady = true; this.pushPoints(); }
+      if (m.type === 'map-pick') this.pick(m.id);
+    };
+    window.addEventListener('message', this._onMsg);
+  }
+
+  componentWillUnmount() { window.removeEventListener('message', this._onMsg); }
+
+  componentDidUpdate() { this.pushPoints(); }
+
+  pushPoints() {
+    const fr = this.mapRef.current;
+    if (!fr || !this._mapReady || !this._points) return;
+    fr.contentWindow.postMessage({
+      type: 'map-points', points: this._points, regions: this._regions,
+      depth: this._depth, sido: this._sido, focus: this._focus
+    }, '*');
+  }
+
+  pick(id) {
+    const d = this.state.d;
+    if (!d || !id) return;
+    const kind = id.slice(0, id.indexOf(':')), key = id.slice(id.indexOf(':') + 1);
+    if (kind === 'sido') this.setState({ openSido: key, openOffice: null, sel: null, seg: 1 });
+    else if (kind === 'office') {
+      const o = d.OFFICES.filter((x) => x.name === key)[0];
+      this.setState({ openSido: o.region, openOffice: o.name, sel: null });
+    } else this.setState({ sel: Number(key) });
+  }
+
+  renderVals() {
+    const self = this, s = this.state, d = s.d;
+    if (!d) return { legend: [], tree: [], counts: [], donut: [], ranks: [], typeChips: [], crumbs: [], typeBars: [], levelBars: [], officeBars: [],
+      natLabel: '', natShare: '', natTotal: '', natNote: '', levelNote: '', officeTitle: '', officeNote: '',
+      mapHint: '', rankTitle: '', rankHint: '', rankTop: '', rankBottom: '', footNote: '', focus: {}, mapRef: this.mapRef };
+    const C = d.C, TAG = d.TAG, types = ['연구학교', '선도학교', '중점학교'];
+    const q = s.query.trim();
+    const pick = s.type === '전체' ? types : [s.type];
+    const sum = (o) => pick.reduce((a, t) => a + o[t], 0);
+
+    const atNation = !s.openSido && !s.openOffice;
+
+    const typeChips = ['전체'].concat(types).map(function (t) {
+      const on = s.type === t;
+      return {
+        label: t, dot: t === '전체' ? '#b5afa3' : C[t],
+        onClick: function () { self.setState({ type: t }); },
+        style: 'display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer;'
+          + (on ? 'background:#2b2a28;color:#fff;font-weight:700;' : 'background:#f6f4f0;color:#5c574d;border:1px solid #ece9e3;')
+      };
+    });
+
+    const crumbDefs = [{ label: '전국', t: { openSido: null, openOffice: null } }];
+    if (s.openSido) crumbDefs.push({ label: s.openSido + '교육청', t: { openSido: s.openSido, openOffice: null } });
+    if (s.openOffice) crumbDefs.push({ label: s.openOffice, t: { openSido: s.openSido, openOffice: s.openOffice } });
+    const crumbs = crumbDefs.map(function (c, i) {
+      const last = i === crumbDefs.length - 1;
+      return {
+        label: (i ? '› ' : '') + c.label,
+        onClick: function () { self.setState(Object.assign({ sel: null }, c.t)); },
+        style: 'font-size:12px;cursor:pointer;padding:5px 9px;border-radius:6px;white-space:nowrap;'
+          + (last ? 'font-weight:700;background:#f2f0ec;' : 'color:#8a8579;')
+      };
+    });
+
+    const LV = { 초: '초등학교', 중: '중학교', 고: '고등학교' };
+    const matches = function (x) { return !q || x.name.indexOf(q) >= 0; };
+    const schoolsOf = function (officeName) {
+      return d.SCHOOLS.filter(function (x) {
+        if (x.office !== officeName) return false;
+        if (s.type !== '전체' && x.type !== s.type) return false;
+        if (s.level !== '전체' && x.level !== s.level) return false;
+        return !q || x.name.indexOf(q) >= 0 || x.office.indexOf(q) >= 0;
+      });
+    };
+
+    const tree = [];
+    d.SIDO.forEach(function (sd) {
+      const offices = d.OFFICES.filter((o) => o.region === sd.name);
+      const openS = s.openSido === sd.name;
+      if (q && !openS && !matches(sd) && !offices.some(matches) && !offices.some((o) => schoolsOf(o.name).length)) return;
+      tree.push({
+        depth: 0, kind: '교육청', name: sd.name + '교육청', sub: '지원청 ' + sd.offices + '개 · 연구 ' + sd.연구학교 + ' 선도 ' + sd.선도학교 + ' 중점 ' + sd.중점학교,
+        tag: sum(sd).toLocaleString() + '개교', color: '#2b2a28', open: openS, hasKids: true, sel: openS && !s.openOffice,
+        onClick: function () { self.setState({ openSido: openS ? null : sd.name, openOffice: null, sel: null, seg: openS ? 0 : 1 }); }
+      });
+      if (!openS) return;
+      offices.forEach(function (o) {
+        const openO = s.openOffice === o.name;
+        tree.push({
+          depth: 1, kind: '지원청', name: o.name, sub: '연구 ' + o.연구학교 + ' · 선도 ' + o.선도학교 + ' · 중점 ' + o.중점학교,
+          tag: sum(o) + '개교', color: C.선도학교, open: openO, hasKids: true, sel: openO,
+          onClick: function () { self.setState({ openOffice: openO ? null : o.name, sel: null }); }
+        });
+        if (!openO) return;
+        const sch = schoolsOf(o.name);
+        if (!sch.length) {
+          tree.push({ depth: 2, kind: '학교', name: '표시할 학교 없음', sub: '필터 조건을 완화해 보세요', tag: '', color: '#d8d5d0', hasKids: false, onClick: function () {} });
+        }
+        sch.forEach(function (x) {
+          tree.push({
+            depth: 2, kind: '학교', name: x.name, sub: LV[x.level] + ' · ' + o.short, tag: x.type, color: C[x.type], hasKids: false,
+            sel: s.sel === x.id, onClick: function () { self.setState({ sel: x.id }); }
+          });
+        });
+      });
+    });
+
+    let dotSrc, focusObj, focusKind, aggSrc, countTitle, unitCount, footNote, schoolPins = null;
+    if (s.openOffice) {
+      dotSrc = d.OFFICES.filter((o) => o.name === s.openOffice);
+      schoolPins = schoolsOf(s.openOffice);
+      focusObj = dotSrc[0]; focusKind = '교육지원청';
+      aggSrc = dotSrc; countTitle = s.openOffice + ' 지정 개수'; unitCount = '1개 지원청';
+      footNote = '표본 ' + schoolPins.length + '개교 표시 · 지정 ' + dotSrc[0].total + '개교';
+    } else if (s.openSido) {
+      dotSrc = d.OFFICES.filter((o) => o.region === s.openSido);
+      focusObj = d.SIDO.filter((x) => x.name === s.openSido)[0]; focusKind = '시도교육청';
+      aggSrc = dotSrc; countTitle = s.openSido + '교육청 지정 개수'; unitCount = dotSrc.length + '개 지원청';
+      footNote = '지원청 행을 펼치면 학교 목록이 나옵니다';
+    } else if (s.seg === 1) {
+      dotSrc = d.OFFICES; focusObj = d.OFFICES[0]; focusKind = '교육지원청';
+      aggSrc = d.SIDO; countTitle = '전국 지정 개수'; unitCount = d.NATION.offices + '개 지원청';
+      footNote = '교육청 행을 펼치면 지원청이 나옵니다';
+    } else {
+      dotSrc = d.SIDO; focusObj = d.SIDO[0]; focusKind = '시도교육청';
+      aggSrc = d.SIDO; countTitle = '전국 지정 개수'; unitCount = d.SIDO.length + '개 교육청 · ' + d.NATION.offices + '개 지원청';
+      footNote = '교육청 → 지원청 → 학교 순으로 펼쳐 보세요';
+    }
+
+    const maxT = Math.max.apply(null, dotSrc.map((o) => o.total).concat([1]));
+    this._points = schoolPins
+      ? schoolPins.map(function (x) {
+          return {
+            id: 'school:' + x.id, lat: x.lat, lng: x.lng, r: s.sel === x.id ? 11 : 7,
+            color: C[x.type], active: s.sel === x.id, dim: false,
+            label: x.name.replace(/^\S+\s/, ''), title: x.name + ' · ' + x.type
+          };
+        })
+      : dotSrc.map(function (o) {
+          const dom = s.type !== '전체' ? s.type : types.reduce((a, b) => (o[b] > o[a] ? b : a), '연구학교');
+          const isSido = !o.region;
+          return {
+            id: (isSido ? 'sido:' + o.name : 'office:' + o.name),
+            lat: o.lat, lng: o.lng,
+            r: 7 + Math.round(sum(o) / maxT * 16),
+            color: C[dom], dim: s.type !== '전체' && o[s.type] === 0,
+            active: !!(focusObj && o.name === focusObj.name && (s.openSido || s.openOffice)),
+            label: isSido ? o.name : o.short,
+            title: (isSido ? o.name + '교육청' : o.name) + ' · ' + sum(o) + '개교'
+          };
+        });
+    this._regions = d.SIDO.map(function (x) { return x.name; });
+    this._depth = s.openOffice ? 2 : (s.openSido ? 1 : 0);
+    this._sido = s.openSido || null;
+    this._focus = s.openOffice && dotSrc[0] ? { lat: dotSrc[0].lat, lng: dotSrc[0].lng } : null;
+
+    const allSum = aggSrc.reduce((a, o) => a + o.연구학교 + o.선도학교 + o.중점학교, 0) || 1;
+    const counts = types.map(function (t) {
+      const v = aggSrc.reduce((a, o) => a + o[t], 0);
+      const on = s.type === t;
+      return {
+        label: t, value: v.toLocaleString(), color: C[t], raw: v,
+        share: Math.round(v / allSum * 100) + '%',
+        onClick: function () { self.setState({ type: on ? '전체' : t }); },
+        rowStyle: 'display:flex;align-items:center;gap:9px;padding:5px 7px;margin:-5px -7px;border-radius:7px;cursor:pointer;'
+          + (on ? 'background:#f4f2ee;font-weight:700;' : 'opacity:' + (s.type === '전체' ? 1 : 0.42) + ';')
+      };
+    });
+
+    const CIRC = 2 * Math.PI * 56;
+    let acc = 0;
+    const donut = counts.map(function (c) {
+      const len = c.raw / allSum * CIRC;
+      const seg = { color: c.color, dash: Math.max(len - 1.5, 0).toFixed(2) + ' ' + CIRC.toFixed(2), offset: (-acc).toFixed(2), opacity: s.type === '전체' || s.type === c.label ? 1 : 0.18 };
+      acc += len;
+      return seg;
+    });
+
+    const rankSrc = s.openSido
+      ? d.OFFICES.filter((o) => o.region === s.openSido).map((o) => ({ name: o.short, key: 'office:' + o.name, o: o }))
+      : d.SIDO.map((x) => ({ name: x.name, key: 'sido:' + x.name, o: x }));
+    const rankRows = rankSrc.map((r) => Object.assign({}, r, { v: sum(r.o) })).sort((a, b) => b.v - a.v);
+    const rankMax = Math.max.apply(null, rankRows.map((r) => r.v).concat([1]));
+    const lowCut = rankRows.length > 4 ? rankRows[rankRows.length - 1].v : -1;
+    const ranks = rankRows.map(function (r, i) {
+      const isSel = s.openSido ? s.openOffice === r.o.name : false;
+      const low = r.v <= lowCut && i >= rankRows.length - 3;
+      return {
+        name: r.name, total: r.v.toLocaleString(),
+        onClick: function () { self.pick(r.key); },
+        rowStyle: 'display:flex;align-items:center;gap:10px;padding:5px 7px;border-radius:7px;cursor:pointer;'
+          + (isSel ? 'background:#f4f2ee;' : ''),
+        nameStyle: 'font-size:12px;width:' + (s.openSido ? 68 : 34) + 'px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'
+          + (i === 0 ? 'font-weight:700;' : 'color:#5c574d;'),
+        barStyle: 'display:flex;width:' + Math.max(r.v / rankMax * 100, 2) + '%;height:100%;',
+        segs: pick.map(function (t) {
+          return { style: 'flex:' + (r.o[t] || 0.0001) + ';background:' + C[t] + ';' + (s.type === '전체' || s.type === t ? '' : 'opacity:0.25;') };
+        }),
+        flag: low ? '부족' : (i === 0 ? '최다' : ''),
+        flagStyle: 'flex:none;width:34px;text-align:right;font-size:10px;font-weight:700;white-space:nowrap;color:'
+          + (low ? '#b2452f' : (i === 0 ? '#8a8579' : 'transparent')) + ';'
+      };
+    });
+
+    const offScope = s.openOffice ? d.OFFICES.filter((o) => o.name === s.openOffice)
+      : (s.openSido ? d.OFFICES.filter((o) => o.region === s.openSido) : d.OFFICES);
+    const scopeTotal = offScope.reduce((a, o) => a + sum(o), 0);
+    const nationTotal = d.OFFICES.reduce((a, o) => a + sum(o), 0) || 1;
+    const withAny = offScope.filter((o) => sum(o) > 0).length;
+    const avgPer = offScope.length ? scopeTotal / offScope.length : 0;
+    const topType = types.reduce(function (a, t) {
+      return offScope.reduce((x, o) => x + o[t], 0) > offScope.reduce((x, o) => x + o[a], 0) ? t : a;
+    }, '연구학교');
+    const topTypeV = offScope.reduce((x, o) => x + o[topType], 0);
+    const sortedOff = offScope.map((o) => sum(o)).sort((a, b) => a - b);
+    const gapRatio = sortedOff.length > 1 && sortedOff[0] > 0
+      ? (sortedOff[sortedOff.length - 1] / sortedOff[0]).toFixed(1) + '배' : '—';
+    const typeBars = types.map(function (t) {
+      const v = offScope.reduce((x, o) => x + o[t], 0);
+      return { label: t, value: v.toLocaleString(), pct: Math.round(v / (scopeTotal || 1) * 100), color: C[t] };
+    });
+
+    const LEVEL_MIX = { 연구학교: [0.38, 0.34, 0.28], 선도학교: [0.44, 0.32, 0.24], 중점학교: [0.14, 0.26, 0.60] };
+    const lvNames = ['초등학교', '중학교', '고등학교'];
+    const lvTotals = [0, 0, 0];
+    types.forEach(function (t) {
+      const v = offScope.reduce((x, o) => x + o[t], 0);
+      (LEVEL_MIX[t] || [0.34, 0.33, 0.33]).forEach(function (r, i) { lvTotals[i] += Math.round(v * r); });
+    });
+    const lvSum = lvTotals.reduce((a, b) => a + b, 0) || 1;
+    const lvMax = Math.max.apply(null, lvTotals) || 1;
+    const levelBars = lvNames.map(function (n, i) {
+      return {
+        label: n, value: lvTotals[i].toLocaleString(), share: Math.round(lvTotals[i] / lvSum * 100) + '%',
+        pct: Math.round(lvTotals[i] / lvMax * 100), color: ['#7a9bbf', '#8fae86', '#c8a86a'][i]
+      };
+    });
+
+    const offRows = offScope.map((o) => ({ name: o.short, full: o.name, v: sum(o) }))
+      .filter((r) => r.v > 0).sort((a, b) => b.v - a.v).slice(0, 6);
+    const offMax = offRows.length ? offRows[0].v : 1;
+    const officeBars = offRows.map(function (r, ri) {
+      return {
+        label: r.name, value: r.v.toLocaleString(), rank: ri + 1,
+        share: Math.round(r.v / (scopeTotal || 1) * 100) + '%',
+        onClick: function () { self.pick('office:' + r.full); },
+        rowStyle: 'display:flex;align-items:center;gap:10px;padding:11px 4px;cursor:pointer;flex:1;min-height:0;'
+          + (ri ? 'border-top:1px solid #f4f3f0;' : '')
+      };
+    });
+
+    const scopeName = s.openOffice || (s.openSido ? s.openSido : '전국');
+    const DIST = [
+      { label: '학교급', title: scopeName + ' 학교급별 지정 분포', note: '최다 ' + lvNames[lvTotals.indexOf(lvMax)] },
+      { label: '교육지원청', title: (s.openSido ? s.openSido + ' ' : '전국 ') + '교육지원청별 지정 순위 (상위 6)',
+        note: offRows.length > 1 ? '상위–하위 격차 ' + gapRatio : '단일 지원청' },
+      { label: '지역', title: s.openSido ? s.openSido + ' 지원청별 지정 분포' : '시도교육청별 지정 분포',
+        note: s.openSido ? '지원청 클릭 시 이동' : '시도 클릭 시 이동' }
+    ];
+    const distIdx = Math.min(s.dist, DIST.length - 1);
+
+    return {
+      typeBars, levelBars, officeBars,
+      isLevelTab: distIdx === 0, isOfficeTab: distIdx === 1, isRegionTab: distIdx === 2,
+      distNote: DIST[distIdx].note,
+      distTitle: DIST[distIdx].title,
+      distTabs: DIST.map(function (t, i) {
+        const on = i === distIdx;
+        return {
+          label: t.label, onClick: function () { self.setState({ dist: i }); },
+          style: 'padding:6px 14px;border-radius:7px;font-size:12.5px;cursor:pointer;white-space:nowrap;'
+            + (on ? 'background:#fff;color:#2b2a28;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,0.06);' : 'color:#7c7669;font-weight:500;')
+        };
+      }),
+      natTotal: scopeTotal.toLocaleString(),
+      natLabel: (s.openOffice || (s.openSido ? s.openSido : '전국')) + ' 지정 학교 수',
+      natStats: [
+        { label: '지정 교육지원청', value: withAny + '개' },
+        { label: '지원청 평균', value: avgPer.toFixed(1) + '개교' },
+        { label: '최다 유형', value: topType.replace('학교', '') + ' ' + topTypeV.toLocaleString() + '개교' }
+      ],
+      natShare: (s.openSido || s.openOffice) ? '전국 대비 ' + Math.round(scopeTotal / nationTotal * 100) + '%' : '전국 전체',
+      levelNote: '최다 ' + lvNames[lvTotals.indexOf(lvMax)],
+      officeNote: offRows.length > 1 ? '상위–하위 격차 ' + gapRatio : '단일 지원청',
+      officeTitle: (s.openSido ? s.openSido + ' ' : '') + '교육지원청 현황 (상위 6)',
+      statTitle: '통계 개요',
+      statScope: (s.openOffice || (s.openSido ? s.openSido + '교육청' : '전국'))
+        + ' · ' + (s.type === '전체' ? '전체 유형' : s.type),
+      typeChips, crumbs, counts, countTitle, unitCount, footNote, donut, ranks,
+      rankTitle: s.openSido ? s.openSido + ' 지원청별 분포' : '지역별 지정 분포',
+      rankHint: s.openSido ? '지원청 클릭 시 이동' : '시도 클릭 시 이동',
+      rankTop: rankRows.length ? rankRows[0].name + ' ' + rankRows[0].v.toLocaleString() + '개교' : '-',
+      rankBottom: rankRows.length ? rankRows[rankRows.length - 1].name + ' ' + rankRows[rankRows.length - 1].v.toLocaleString() + '개교' : '-',
+      showUnitToggle: atNation,
+      unitToggleLabel: s.seg === 1 ? '지원청 단위 보기 ✓' : '지원청 단위 보기',
+      unitToggleStyle: 'font-size:12px;cursor:pointer;padding:5px 10px;border-radius:7px;white-space:nowrap;border:1px solid '
+        + (s.seg === 1 ? '#2b2a28;background:#2b2a28;color:#fff;font-weight:700;' : '#e6e3dd;color:#7c7669;'),
+      onUnitToggle: function () { self.setState({ seg: s.seg === 1 ? 0 : 1 }); },
+      legend: types.map((t) => ({ label: t, color: C[t] })),
+      mapRef: this.mapRef,
+      level: s.level, query: s.query,
+      total: aggSrc.reduce((a, o) => a + sum(o), 0).toLocaleString(),
+      mapHint: schoolPins
+        ? '시군구 경계 · 핀 = 개별 학교(표본 ' + schoolPins.length + '개교)'
+        : (s.openSido ? '시군구 경계 · 버블 클릭 시 학교 뎁스' : '시도 경계 · 클릭 시 지원청 뎁스'),
+      showFocus: !atNation && !!focusObj,
+      focus: focusObj && !atNation
+        ? { kind: focusKind, name: (focusObj.region ? focusObj.name : focusObj.name + '교육청'), a: focusObj.연구학교, b: focusObj.선도학교, c: focusObj.중점학교 }
+        : {},
+      tree: tree.map(function (n) {
+        const pad = 8 + n.depth * 18;
+        return {
+          name: n.name, sub: n.sub, tag: n.tag, caret: n.hasKids ? (n.open ? '▾' : '▸') : '',
+          onClick: n.onClick,
+          rowStyle: 'display:flex;align-items:center;gap:8px;padding:' + (n.depth === 0 ? '11px 8px' : '9px 8px')
+            + ';padding-left:' + pad + 'px;border-radius:8px;cursor:pointer;position:relative;'
+            + (n.sel ? 'background:#f4f2ee;' : '')
+            + (n.depth === 0 ? 'border-top:1px solid #f4f2ee;' : ''),
+          railStyle: n.depth ? 'position:absolute;left:' + (pad - 11) + 'px;top:0;bottom:0;width:1px;background:#eae7e1;'
+            : 'display:none;',
+          caretStyle: 'width:12px;font-size:10px;color:#a39d92;flex:none;',
+          dotStyle: 'width:' + (n.depth === 0 ? 9 : 7) + 'px;height:' + (n.depth === 0 ? 9 : 7)
+            + 'px;border-radius:50%;flex:none;background:' + n.color + ';'
+            + (n.depth === 1 ? 'box-shadow:0 0 0 2px #fff;' : ''),
+          nameStyle: 'font-size:' + (n.depth === 0 ? 14 : 13) + 'px;font-weight:' + (n.depth === 0 ? 700 : 500)
+            + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'
+            + (n.depth === 2 ? 'color:#4a453d;' : ''),
+          tagStyle: 'flex:none;font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;background:'
+            + (TAG[n.tag] || (n.depth === 0 ? '#f1efea' : 'transparent')) + ';color:'
+            + (C[n.tag] || (n.depth === 0 ? '#2b2a28' : '#8a8579')) + ';'
+        };
+      }),
+      onLevel: function (e) { self.setState({ level: e.target.value }); },
+      onQuery: function (e) { self.setState({ query: e.target.value }); },
+      onCollapse: function () { self.setState({ openSido: null, openOffice: null, sel: null, seg: 0 }); },
+      onReset: function () { self.setState({ type: '전체', level: '전체', query: '', openSido: null, openOffice: null, seg: 0, sel: null }); }
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#f6f5f3; font-family:'Noto Sans KR', -apple-system, sans-serif; -webkit-font-smoothing:antialiased; }
+  a { color:#2f6fb3; text-decoration:none; }
+  a:hover { color:#1f4f83; }
+  *::-webkit-scrollbar { width:8px; }
+  *::-webkit-scrollbar-thumb { background:#d8d5d0; border-radius:4px; }
+</style>
+</helmet>
+<div style="min-height:100vh;padding:28px 32px 48px;color:#2b2a28;">
+  <div style="max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:16px;">
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:12px;letter-spacing:0.12em;color:#8a8579;font-weight:500;">교육정책 모니터링</div>
+        <div style="font-size:26px;font-weight:700;letter-spacing:-0.02em;">연구·선도·중점학교 정책효과성 평가</div>
+      </div>
+      <div style="display:flex;gap:6px;background:#eceae5;padding:4px;border-radius:10px;">
+        <a href="./school-map-dashboard.dc.html" style="padding:8px 18px;border-radius:7px;font-size:14px;font-weight:500;color:#7c7669;" style-hover="color:#2b2a28;">현황 지도</a>
+        <div style="padding:8px 18px;border-radius:7px;background:#fff;font-size:14px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,0.06);">정책평가 결과</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:14px 18px;">
+      <div style="display:flex;gap:8px;">
+        <sc-for list="{{ groupTabs }}" as="g" hint-placeholder-count="2">
+          <div onClick="{{ g.onClick }}" style="{{ g.style }}">{{ g.label }}</div>
+        </sc-for>
+      </div>
+      <div style="font-size:12px;color:#8a8579;line-height:1.6;">비슷한 조건의 일반학교(PSM 매칭)와 비교한 결과 · 통계적으로 확인된 차이만 &lsquo;효과 있음&rsquo;으로 표시</div>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:5px;margin-top:10px;">
+      <div style="display:flex;align-items:baseline;gap:9px;">
+        <span style="font-size:12px;font-weight:700;color:#a39d92;">01</span>
+        <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em;">전체 정책효과</span>
+      </div>
+      <div style="font-size:12.5px;color:#8a8579;line-height:1.6;">{{ groupName }}가 비슷한 조건의 일반학교보다 얼마나 좋아졌는지 · {{ overallHeadline }}</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;">
+      <sc-for list="{{ gauges }}" as="m" hint-placeholder-count="4">
+        <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:20px 20px 18px;display:flex;flex-direction:column;align-items:center;gap:12px;">
+          <div style="align-self:stretch;display:flex;flex-direction:column;gap:4px;">
+            <div style="font-size:11px;font-weight:700;color:#a39d92;letter-spacing:0.05em;">{{ m.area }}</div>
+            <div style="font-size:14px;font-weight:700;line-height:1.45;letter-spacing:-0.01em;text-wrap:pretty;min-height:40px;">{{ m.name }}</div>
+          </div>
+
+          <div style="position:relative;width:180px;height:104px;">
+            <svg viewBox="0 0 200 116" style="width:180px;height:104px;display:block;overflow:visible;">
+              <path d="M 18 104 A 82 82 0 0 1 182 104" fill="none" stroke="#f0eee9" stroke-width="17" stroke-linecap="round"></path>
+              <path d="M 18 104 A 82 82 0 0 1 182 104" fill="none" stroke="{{ m.arcColor }}" stroke-width="17" stroke-linecap="round" stroke-dasharray="{{ m.dash }}"></path>
+              <circle cx="{{ m.markX }}" cy="{{ m.markY }}" r="4.5" fill="#fff" stroke="{{ m.arcColor }}" stroke-width="3"></circle>
+            </svg>
+            <div style="position:absolute;left:0;right:0;bottom:6px;display:flex;flex-direction:column;align-items:center;gap:2px;">
+              <div style="display:flex;align-items:baseline;gap:3px;">
+                <span style="font-size:30px;font-weight:700;letter-spacing:-0.03em;line-height:1;color:{{ m.color }};">{{ m.relLabel }}</span>
+                <span style="font-size:13px;color:#8a8579;">%</span>
+              </div>
+              <div style="font-size:11px;color:#6b6558;">{{ m.relCaption }}</div>
+            </div>
+          </div>
+
+          <div style="{{ m.badgeStyle }}" title="{{ m.pText }}">{{ m.badge }}</div>
+
+          <div style="align-self:stretch;border-top:1px solid #f0eee9;padding-top:12px;display:flex;align-items:center;justify-content:space-between;gap:8px;">
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <span style="font-size:10.5px;color:#6b6558;">일반학교</span>
+              <span style="font-size:15px;font-weight:700;color:#8a8579;">{{ m.bText }}</span>
+            </div>
+            <span style="font-size:15px;color:#c1bcb2;">→</span>
+            <div style="display:flex;flex-direction:column;gap:2px;align-items:flex-end;">
+              <span style="font-size:10.5px;color:#5c574d;">정책학교</span>
+              <span style="font-size:15px;font-weight:700;color:{{ accent }};">{{ m.aText }}</span>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:5px;margin-top:14px;">
+      <div style="display:flex;align-items:baseline;gap:9px;">
+        <span style="font-size:12px;font-weight:700;color:#a39d92;">02</span>
+        <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em;">학교급별 정책효과 비교</span>
+      </div>
+      <div style="font-size:12.5px;color:#8a8579;line-height:1.6;">{{ levelHeadline }}</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;">
+      <sc-for list="{{ levelCards }}" as="c" hint-placeholder-count="3">
+        <div style="{{ c.cardStyle }}">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+            <div style="display:flex;align-items:center;gap:9px;">
+              <span style="width:10px;height:10px;border-radius:50%;background:{{ c.color }};"></span>
+              <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em;">{{ c.label }}</span>
+            </div>
+            <div style="{{ c.pillStyle }}">{{ c.pill }}</div>
+          </div>
+
+          <div style="display:flex;align-items:baseline;gap:7px;">
+            <span style="font-size:38px;font-weight:700;letter-spacing:-0.035em;line-height:1;color:{{ c.color }};">{{ c.sigCount }}</span>
+            <span style="font-size:12.5px;color:#6b6558;">/ {{ c.totalCount }}개 지표에서 효과 확인</span>
+          </div>
+
+          <div style="display:flex;gap:5px;">
+            <sc-for list="{{ c.pips }}" as="p" hint-placeholder-count="4">
+              <div style="flex:1;height:7px;border-radius:4px;background:{{ p }};"></div>
+            </sc-for>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:9px;">
+            <sc-for list="{{ c.rows }}" as="r" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <span style="font-size:12.5px;color:#5c574d;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span>
+                <span style="font-size:13.5px;font-weight:700;letter-spacing:-0.01em;color:{{ r.color }};">{{ r.value }}</span>
+                <span style="{{ r.tagStyle }}">{{ r.tag }}</span>
+              </div>
+            </sc-for>
+          </div>
+
+          <div style="margin-top:auto;border-top:1px solid #f0eee9;padding-top:13px;font-size:12.5px;color:#5c574d;line-height:1.65;text-wrap:pretty;">{{ c.readout }}</div>
+        </div>
+      </sc-for>
+    </div>
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:14px;">
+      <div style="display:flex;flex-direction:column;gap:5px;min-width:0;">
+        <div style="display:flex;align-items:baseline;gap:9px;">
+          <span style="font-size:12px;font-weight:700;color:#a39d92;">03</span>
+          <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em;">학교 특성별 정책효과 분석</span>
+        </div>
+        <div style="font-size:12.5px;color:#8a8579;line-height:1.6;">{{ charHeadline }}</div>
+      </div>
+      <div style="display:flex;gap:4px;background:#eceae5;padding:4px;border-radius:10px;flex-wrap:wrap;">
+        <sc-for list="{{ charTabs }}" as="t" hint-placeholder-count="4">
+          <div onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</div>
+        </sc-for>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:22px 26px 20px;display:flex;flex-direction:column;gap:18px;">
+      <div style="background:#f7f6f3;border-radius:11px;padding:14px 18px;font-size:13.5px;color:#3f3b34;line-height:1.65;text-wrap:pretty;">{{ charSummary }}</div>
+
+      <div style="{{ subGridStyle }}">
+        <sc-for list="{{ subCards }}" as="s" hint-placeholder-count="3">
+          <div style="{{ s.cardStyle }}">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;">
+              <div style="display:flex;flex-direction:column;gap:3px;min-width:0;">
+                <div style="font-size:11px;font-weight:700;color:#6b6558;letter-spacing:0.05em;">{{ s.rankLabel }}</div>
+                <div style="font-size:17px;font-weight:700;letter-spacing:-0.01em;text-wrap:pretty;">{{ s.name }}</div>
+              </div>
+              <div style="{{ s.pillStyle }}">{{ s.pill }}</div>
+            </div>
+
+            <div style="display:flex;align-items:baseline;gap:8px;">
+              <span style="font-size:38px;font-weight:700;letter-spacing:-0.035em;line-height:1;color:{{ s.color }};">{{ s.mult }}</span>
+              <span style="font-size:12.5px;color:#6b6558;line-height:1.5;">배<br>전체 평균 효과 대비</span>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:12px;">
+              <sc-for list="{{ s.rows }}" as="r" hint-placeholder-count="4">
+                <div style="display:flex;flex-direction:column;gap:5px;">
+                  <div style="display:flex;align-items:baseline;gap:8px;">
+                    <span style="font-size:12.5px;color:#4c473f;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</span>
+                    <span style="font-size:12.5px;font-weight:700;color:{{ r.color }};white-space:nowrap;flex:none;">{{ r.relText }}</span>
+                    <span style="font-size:11.5px;color:#6b6558;white-space:nowrap;flex:none;">({{ r.value }})</span>
+                  </div>
+                  <span style="display:block;height:9px;border-radius:5px;background:#f2f0ec;overflow:hidden;">
+                    <span style="display:block;height:100%;border-radius:5px;background:{{ r.barColor }};width:{{ r.pct }}%;"></span>
+                  </span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="margin-top:auto;border-top:1px solid #f0eee9;padding-top:13px;font-size:12.5px;color:#4c473f;line-height:1.65;text-wrap:pretty;">{{ s.readout }}</div>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="border-top:1px solid #f0eee9;padding-top:14px;font-size:11.5px;color:#6b6558;line-height:1.7;">막대와 % 는 비교집단 평균 대비 개선률(공통 축) · 회색 막대는 통계적으로 확인되지 않은 차이 · {{ charFoot }}</div>
+    </div>
+
+  </div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;group&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;연구·선도학교&quot;,&quot;중점학교&quot;],&quot;default&quot;:&quot;연구·선도학교&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;표시&quot;},&quot;showPValues&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;표시&quot;},&quot;accentColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;options&quot;:[&quot;#4a90d9&quot;,&quot;#5fa052&quot;,&quot;#c8862a&quot;,&quot;#2b2a28&quot;],&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;표시&quot;}}">
+const ACCENT = { '연구·선도학교': '#4a90d9', '중점학교': '#c8862a' };
+const LEVELS = ['초등', '중등', '고등'];
+const LV_COLOR = { 초등: '#4a90d9', 중등: '#5fa052', 고등: '#c8862a' };
+const LV_FILL = { 초등: 'rgba(74,144,217,0.13)', 중등: 'rgba(95,160,82,0.13)', 고등: 'rgba(200,134,42,0.13)' };
+const SUB_COLOR = ['#2f7d45', '#7aa98a', '#bcc9bf'];
+
+const GROUPS = [
+  {
+    key: '연구·선도학교',
+    metrics: [
+      { area: '학업 성과', name: '기초학력 미달(E등급) 학생 비율', short: '기초학력', unit: '%p', suffix: '%', better: 'down',
+        lv: { 전체: [4.8, 6.1, 0.003, 4812, 4780], 초등: [3.6, 4.9, 0.002, 1946, 1932], 중등: [5.1, 6.4, 0.009, 1584, 1571], 고등: [6.0, 7.0, 0.048, 1282, 1277] } },
+      { area: '수업 혁신', name: '학생 1인당 학생참여형 수업 편성 시수', short: '참여형 수업', unit: '시간', suffix: '시간', better: 'up',
+        lv: { 전체: [38.4, 31.7, 0.001, 4812, 4780], 초등: [44.2, 34.8, 0.0004, 1946, 1932], 중등: [37.1, 31.2, 0.006, 1584, 1571], 고등: [31.8, 28.6, 0.071, 1282, 1277] } },
+      { area: '교원 역량', name: '교원 1인당 직무연수 이수 시간', short: '직무연수', unit: '시간', suffix: '시간', better: 'up',
+        lv: { 전체: [62.5, 55.9, 0.014, 4812, 4780], 초등: [64.8, 57.1, 0.011, 1946, 1932], 중등: [61.9, 55.4, 0.033, 1584, 1571], 고등: [59.2, 55.0, 0.118, 1282, 1277] } },
+      { area: '혁신 확산', name: '교원 1인당 수업공개 횟수', short: '수업공개', unit: '회', suffix: '회', better: 'up',
+        lv: { 전체: [2.4, 2.2, 0.182, 4812, 4780], 초등: [2.9, 2.4, 0.026, 1946, 1932], 중등: [2.3, 2.2, 0.311, 1584, 1571], 고등: [1.9, 1.9, 0.742, 1282, 1277] } }
+    ]
+  },
+  {
+    key: '중점학교',
+    metrics: [
+      { area: '학업 성과', name: '중점 교과 A등급 학생 비율', short: 'A등급 비율', unit: '%p', suffix: '%', better: 'up',
+        lv: { 전체: [18.6, 15.2, 0.008, 1286, 1274], 초등: null, 중등: [16.9, 14.1, 0.021, 402, 398], 고등: [19.8, 16.0, 0.004, 884, 876] } },
+      { area: '교육과정', name: '심화·선택 교과 이수 단위 비중', short: '심화 이수', unit: '%p', suffix: '%', better: 'up',
+        lv: { 전체: [24.1, 19.8, 0.0004, 1286, 1274], 초등: null, 중등: [20.4, 17.6, 0.012, 402, 398], 고등: [26.3, 20.9, 0.0002, 884, 876] } },
+      { area: '프로그램', name: '특화 탐구 프로그램 참여율', short: '탐구 참여', unit: '%p', suffix: '%', better: 'up',
+        lv: { 전체: [61.3, 47.5, 0.0002, 1286, 1274], 초등: null, 중등: [55.8, 44.2, 0.001, 402, 398], 고등: [64.7, 49.3, 0.0001, 884, 876] } },
+      { area: '진로 성과', name: '중점 계열 대학 진학률', short: '계열 진학', unit: '%p', suffix: '%', better: 'up',
+        lv: { 전체: [34.2, 32.9, 0.211, 884, 876], 초등: null, 중등: null, 고등: [34.2, 32.9, 0.211, 884, 876] } }
+    ]
+  }
+];
+
+const CHARS = [
+  { key: '지역 규모', groups: [{ n: '대도시', f: 0.74 }, { n: '중소도시', f: 1.02 }, { n: '읍·면', f: 1.38 }], foot: '지역 규모별 하위집단 분석 결과' },
+  { key: '학교 규모', groups: [{ n: '대규모', f: 0.78 }, { n: '중규모', f: 1.04 }, { n: '소규모', f: 1.32 }], foot: '학급 수 기준 3분위 하위집단 분석 결과' },
+  { key: '설립 유형', groups: [{ n: '공립', f: 1.09 }, { n: '사립', f: 0.83 }], foot: '설립 유형별 하위집단 분석 결과' },
+  { key: '사전 성취수준', groups: [{ n: '하위 1/3', f: 1.42 }, { n: '중위 1/3', f: 1.0 }, { n: '상위 1/3', f: 0.68 }], foot: '정책 시행 이전 학업성취 수준 3분위 기준' }
+];
+
+const fmtP = (p) => (p < 0.001 ? 'p < 0.001' : 'p = ' + p.toFixed(3));
+const num = (v) => v.toFixed(1);
+const abs1 = (v) => Math.abs(v).toFixed(1);
+const sgn1 = (v) => (Math.abs(v) < 0.05 ? '0.0' : (v > 0 ? '+' : '−') + Math.abs(v).toFixed(1));
+const ARC_LEN = Math.PI * 82;
+
+class Component extends DCLogic {
+  state = { g: 0, c: 0 };
+
+  renderVals() {
+    const self = this;
+    const idx = this.props.group === '중점학교' ? 1 : this.state.g;
+    const G = GROUPS[idx];
+    const accent = this.props.accentColor || ACCENT[G.key];
+    const showP = this.props.showPValues !== false;
+
+    const gauges = G.metrics.map(function (m) {
+      const d = m.lv['전체'];
+      const diff = d[0] - d[1];
+      const good = m.better === 'down' ? diff < 0 : diff > 0;
+      const sig = d[2] < 0.05;
+      const rel = Math.abs((diff / d[1]) * 100);
+      const frac = Math.min(1, rel / 35);
+      const ang = Math.PI * (1 - frac);
+      const color = sig ? (good ? '#2f7d45' : '#b2452f') : '#a39d92';
+      return {
+        area: m.area, name: m.name,
+        arcColor: sig ? (good ? '#4f9367' : '#c97f72') : '#c9c4b9',
+        color: sig ? color : '#6b6558',
+        dash: (ARC_LEN * frac).toFixed(1) + ' ' + ARC_LEN.toFixed(1),
+        markX: (100 + 82 * Math.cos(ang)).toFixed(1),
+        markY: (104 - 82 * Math.sin(ang)).toFixed(1),
+        relLabel: (diff === 0 ? '0' : (good ? '' : '−')) + rel.toFixed(1),
+        relCaption: sig ? (good ? '일반학교 대비 개선' : '일반학교 대비 악화') : '차이 확인 안 됨',
+        aText: num(d[0]) + m.suffix, bText: num(d[1]) + m.suffix,
+        badge: sig ? (good ? '효과 있음' : '악화') : '효과 확인 안 됨',
+        badgeStyle: 'padding:5px 12px;border-radius:20px;font-size:11.5px;font-weight:700;white-space:nowrap;cursor:help;'
+          + (sig ? (good ? 'background:#e9f2ec;color:#2f7d45;' : 'background:#f7ece9;color:#b2452f;') : 'background:#f2f0ec;color:#6b6558;'),
+        pText: '개선폭 ' + abs1(diff) + m.unit + ' · ' + (showP ? fmtP(d[2]) + ' · ' : '') + '분석 ' + d[3].toLocaleString() + '교'
+      };
+    });
+
+    const sigAll = G.metrics.filter((m) => m.lv['전체'][2] < 0.05);
+    const bestAll = sigAll.slice().sort(function (x, y) {
+      const r = (t) => Math.abs((t.lv['전체'][0] - t.lv['전체'][1]) / t.lv['전체'][1]);
+      return r(y) - r(x);
+    })[0];
+    const overallHeadline = '4개 지표 중 ' + sigAll.length + '개에서 효과 확인'
+      + (bestAll ? ' · 가장 크게 개선된 지표는 ' + bestAll.short : '');
+
+    const levelCards = LEVELS.map(function (k) {
+      const avail = G.metrics.filter((m) => m.lv[k]);
+      const ok = avail.filter((m) => m.lv[k][2] < 0.05);
+      const none = avail.length === 0;
+      const top = ok.slice().sort(function (x, y) {
+        const r = (t) => Math.abs((t.lv[k][0] - t.lv[k][1]) / t.lv[k][1]);
+        return r(y) - r(x);
+      })[0];
+      const rows = G.metrics.map(function (m) {
+        if (!m.lv[k]) return { name: m.short, value: '—', color: '#c1bcb2', tag: '', tagStyle: 'display:none;' };
+        const diff = m.lv[k][0] - m.lv[k][1];
+        const good = m.better === 'down' ? diff < 0 : diff > 0;
+        const sig = m.lv[k][2] < 0.05;
+        const isTop = top && top.short === m.short;
+        return {
+          name: m.short,
+          value: sgn1(diff) + m.unit,
+          color: sig ? (good ? '#2f7d45' : '#b2452f') : '#6b6558',
+          tag: isTop ? '최대' : (sig ? '' : 'n.s.'),
+          tagStyle: (isTop || !sig)
+            ? 'font-size:10px;font-weight:700;padding:2px 7px;border-radius:20px;white-space:nowrap;flex:none;'
+              + (isTop ? 'background:#e9f2ec;color:#2f7d45;' : 'background:#f2f0ec;color:#6b6558;')
+            : 'display:none;'
+        };
+      });
+      return {
+        label: k, color: none ? '#a39d92' : LV_COLOR[k],
+        sigCount: none ? '—' : String(ok.length),
+        totalCount: none ? G.metrics.length : avail.length,
+        pips: G.metrics.map(function (m) {
+          if (!m.lv[k]) return '#f0eee9';
+          return m.lv[k][2] < 0.05 ? LV_COLOR[k] : '#e2dfd9';
+        }),
+        rows: rows,
+        pill: none ? '분석 대상 아님' : (ok.length === avail.length ? '전 지표 효과' : (ok.length === 0 ? '효과 미확인' : '부분 효과')),
+        pillStyle: 'flex:none;padding:5px 11px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;'
+          + (none ? 'background:#f4f3f0;color:#a39d92;'
+            : (ok.length === avail.length ? 'background:#e9f2ec;color:#2f7d45;'
+              : (ok.length === 0 ? 'background:#f2f0ec;color:#8a8579;' : 'background:#f6f1e6;color:#8a6a2a;'))),
+        cardStyle: 'background:#fff;border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:14px;'
+          + (none ? 'border:1px dashed #e6e3dd;' : 'border:1px solid #e6e3dd;'),
+        readout: none ? '해당 학교급은 이 정책의 분석 대상이 아닙니다.'
+          : (ok.length === 0 ? '어느 지표에서도 효과가 확인되지 않았습니다.'
+            : top.short + '에서 효과가 가장 큽니다 (개선폭 ' + abs1(top.lv[k][0] - top.lv[k][1]) + top.unit + ').')
+      };
+    });
+
+    const lvScore = LEVELS.map((k) => G.metrics.filter((m) => m.lv[k] && m.lv[k][2] < 0.05).length);
+    const lvBest = lvScore.indexOf(Math.max.apply(null, lvScore));
+    const levelHeadline = LEVELS[lvBest] + '에서 효과가 가장 광범위 · 효과가 확인된 지표 수 '
+      + LEVELS.map((k, i) => k + ' ' + lvScore[i] + '개').join(' · ');
+
+    const CH = CHARS[this.state.c];
+    const ranked = CH.groups.slice().sort((a, b) => b.f - a.f);
+    const RANK_INK = ['#2f7d45', '#3f6b4d', '#4c473f'];
+    const relMax = Math.max.apply(null, G.metrics.map(function (m) {
+      const base = m.lv['전체'];
+      return Math.max.apply(null, ranked.map((x) => Math.abs(((base[0] - base[1]) * x.f) / base[1]) * 100));
+    }).concat([0.0001]));
+    const subCards = ranked.map(function (g, gi) {
+      const rows = G.metrics.map(function (m) {
+        const base = m.lv['전체'];
+        const d = (base[0] - base[1]) * g.f;
+        const p = Math.min(0.9, Math.max(0.0001, base[2] * Math.pow(1 / g.f, 2.6)));
+        const sig = p < 0.05;
+        const good = m.better === 'down' ? d < 0 : d > 0;
+        const rel = Math.abs((d / base[1]) * 100);
+        return {
+          name: m.short,
+          value: sgn1(d) + m.unit,
+          relText: rel.toFixed(0) + '%',
+          color: sig ? (good ? '#2f7d45' : '#b2452f') : '#6b6558',
+          barColor: sig ? (good ? '#4f9367' : '#c97f72') : '#ddd9d2',
+          pct: Math.max(3, Math.round((rel / relMax) * 100))
+        };
+      });
+      const sigN = G.metrics.filter(function (m) {
+        const base = m.lv['전체'];
+        return Math.min(0.9, Math.max(0.0001, base[2] * Math.pow(1 / g.f, 2.6))) < 0.05;
+      }).length;
+      const strong = gi === 0;
+      const weak = gi === ranked.length - 1;
+      return {
+        name: g.n,
+        rankLabel: gi === 0 ? '효과 1순위' : (weak ? '효과 최하위' : '효과 ' + (gi + 1) + '순위'),
+        mult: g.f.toFixed(2).replace(/0$/, ''),
+        color: RANK_INK[gi] || '#4c473f',
+        rows: rows,
+        pill: sigN + '개 지표 효과 확인',
+        pillStyle: 'flex:none;padding:5px 11px;border-radius:20px;font-size:11px;font-weight:700;white-space:nowrap;'
+          + (sigN === G.metrics.length ? 'background:#e9f2ec;color:#2f7d45;'
+            : (sigN === 0 ? 'background:#f2f0ec;color:#6b6558;' : 'background:#f6f1e6;color:#8a6a2a;')),
+        cardStyle: 'background:#fff;border-radius:14px;padding:20px 22px;display:flex;flex-direction:column;gap:14px;'
+          + (strong ? 'border:1.5px solid #bcd9c4;box-shadow:0 1px 3px rgba(47,125,69,0.07);' : 'border:1px solid #e6e3dd;'),
+        readout: strong
+          ? '이 집단에서 정책효과가 가장 크게 나타납니다. 전체 평균보다 약 ' + Math.round((g.f - 1) * 100) + '% 큰 개선폭입니다.'
+          : (weak ? '전체 평균보다 개선폭이 작아, 지원 방식 보완을 검토할 필요가 있습니다.'
+            : '전체 평균과 비슷한 수준의 개선폭을 보입니다.')
+      };
+    });
+    const subGridStyle = 'display:grid;grid-template-columns:repeat(' + ranked.length + ',minmax(0,1fr));gap:16px;';
+
+    const topG = CH.groups.slice().sort((a, b) => b.f - a.f)[0];
+    const lowG = CH.groups.slice().sort((a, b) => a.f - b.f)[0];
+    const charSummary = CH.key + ' 기준으로는 ' + topG.n + ' 학교에서 정책효과가 가장 크고, '
+      + lowG.n + ' 학교에서 가장 작습니다 (약 ' + (topG.f / lowG.f).toFixed(1) + '배 차이).';
+
+    return {
+      accent, gauges, overallHeadline,
+      levelCards, levelHeadline,
+      subCards, subGridStyle, charSummary,
+      groupName: G.key,
+      charHeadline: '같은 정책이라도 어떤 학교에서 더 효과가 큰지 · ' + CH.key + ' 기준',
+      charFoot: CH.foot,
+      charTabs: CHARS.map(function (c, i) {
+        const on = i === self.state.c;
+        return {
+          label: c.key, onClick: function () { self.setState({ c: i }); },
+          style: 'padding:7px 14px;border-radius:7px;font-size:13px;cursor:pointer;white-space:nowrap;'
+            + (on ? 'background:#fff;color:#2b2a28;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,0.06);' : 'color:#7c7669;font-weight:500;')
+        };
+      }),
+      groupTabs: GROUPS.map(function (g, i) {
+        const on = i === idx;
+        return {
+          label: g.key + ' 정책효과 분석',
+          onClick: function () { self.setState({ g: i }); },
+          style: 'padding:9px 16px;border-radius:9px;font-size:13.5px;cursor:pointer;'
+            + (on ? 'background:#2b2a28;color:#fff;font-weight:700;' : 'background:#f4f3f0;color:#7c7669;font-weight:500;')
+        };
+      })
+    };
+  }
+}
+
+</script>
+</body>
+</html>

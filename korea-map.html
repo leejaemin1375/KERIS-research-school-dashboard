@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>korea map layer</title>
+<script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
+<style>
+  html, body { margin:0; height:100%; background:#f4f3f0; overflow:hidden;
+    font-family:'Noto Sans KR', -apple-system, sans-serif; }
+  svg { display:block; width:100%; height:100%; }
+  .sido { fill:#e9e7e1; stroke:#d3cfc7; stroke-width:0.7; }
+  .sido.pick { cursor:pointer; }
+  .sido.pick:hover { fill:#dedbd3; }
+  .sido.nodata { fill:#f0eee9; stroke:#e4e1da; pointer-events:none; }
+  .sido.ghost { fill:#efedE8; stroke:#e2dfd8; pointer-events:none; }
+  .sig { fill:#ecebe5; stroke:#d8d4cb; stroke-width:0.6; cursor:pointer; }
+  .sig:hover { fill:#e1ded5; }
+  .sig.on { fill:#e6e2d7; stroke:#b9b3a6; stroke-width:1.2; }
+  .bubble { cursor:pointer; }
+  .lbl { font-size:10.5px; fill:#7c7669; pointer-events:none; }
+  .geolbl { font-size:10px; fill:#a39d92; pointer-events:none; }
+</style>
+</head>
+<body>
+<svg></svg>
+<script>
+const SHORT = function (nm) {
+  return nm.replace('특별자치시', '').replace('특별자치도', '').replace('특별시', '')
+    .replace('광역시', '').replace(/도$/, '')
+    .replace('충청북', '충북').replace('충청남', '충남')
+    .replace('전라북', '전북').replace('전라남', '전남')
+    .replace('경상북', '경북').replace('경상남', '경남');
+};
+
+let sido = null, sig = null, payload = { points: [], depth: 0, sido: null, focus: null };
+const svg = d3.select('svg');
+const gSido = svg.append('g'), gSig = svg.append('g'), gGeoLbl = svg.append('g'), gPts = svg.append('g');
+
+Promise.all([
+  fetch('./geo/korea-sido.json').then(function (r) { return r.json(); }),
+  fetch('./geo/korea-sigungu.json').then(function (r) { return r.json(); })
+]).then(function (res) {
+  sido = res[0].features.map(function (f) { f.short = SHORT(f.properties.CTP_KOR_NM); return f; });
+  sig = res[1].features.map(function (f) { f.sidoCd = f.properties.SIG_CD.slice(0, 2); return f; });
+  const cdByShort = {};
+  sido.forEach(function (f) { cdByShort[f.short] = f.properties.CTPRVN_CD; });
+  sig.forEach(function (f) { f.sidoShort = Object.keys(cdByShort).filter(function (k) { return cdByShort[k] === f.sidoCd; })[0]; });
+  draw();
+  parent.postMessage({ type: 'map-ready' }, '*');
+}).catch(function (e) { console.error('map load failed', e); });
+
+function pointsIn(feat, pts) {
+  return pts.filter(function (p) { return d3.geoContains(feat, [p.lng, p.lat]); });
+}
+
+function draw() {
+  if (!sido) return;
+  const w = window.innerWidth, h = window.innerHeight;
+  svg.attr('viewBox', '0 0 ' + w + ' ' + h);
+  const pts = payload.points || [], depth = payload.depth || 0;
+  const curSido = payload.sido ? sido.filter(function (f) { return f.short === payload.sido; })[0] : null;
+
+  // depth 2 frames the 시군구 that contains the focus point
+  let frame = { type: 'FeatureCollection', features: sido };
+  let localSigs = [];
+  let hotSig = null;
+  if (curSido) {
+    localSigs = sig.filter(function (f) { return f.sidoShort === curSido.short; });
+    frame = curSido;
+    if (depth >= 2 && payload.focus) {
+      hotSig = localSigs.filter(function (f) { return d3.geoContains(f, [payload.focus.lng, payload.focus.lat]); })[0] || null;
+      if (hotSig) frame = hotSig;
+    }
+  }
+
+  const pad = depth === 0 ? 14 : 26;
+  const proj = d3.geoMercator().fitExtent([[pad, pad], [w - pad, h - pad]], frame);
+  const path = d3.geoPath(proj);
+
+  gSido.selectAll('path').data(sido, function (d) { return d.properties.CTPRVN_CD; }).join('path')
+    .attr('d', path)
+    .attr('class', function (d) {
+      if (depth !== 0) return 'sido ghost';
+      const has = !payload.regions || payload.regions.indexOf(d.short) >= 0;
+      return has ? 'sido pick' : 'sido nodata';
+    })
+    .on('click', function (ev, d) {
+      if (depth !== 0) return;
+      if (payload.regions && payload.regions.indexOf(d.short) < 0) return;
+      parent.postMessage({ type: 'map-pick', id: 'sido:' + d.short }, '*');
+    })
+    .select(function () { return this; });
+  gSido.selectAll('path').each(function (d) {
+    let t = this.querySelector('title');
+    if (!t) { t = document.createElementNS('http://www.w3.org/2000/svg', 'title'); this.appendChild(t); }
+    const has = !payload.regions || payload.regions.indexOf(d.short) >= 0;
+    t.textContent = d.properties.CTP_KOR_NM + (has ? '' : ' · 지정 없음');
+  });
+
+  gSig.selectAll('path').data(depth === 0 ? [] : localSigs, function (d) { return d.properties.SIG_CD; }).join('path')
+    .attr('d', path)
+    .attr('class', function (d) { return 'sig' + (hotSig && d === hotSig ? ' on' : ''); })
+    .on('click', function (ev, d) {
+      const inside = pointsIn(d, pts);
+      if (inside.length) parent.postMessage({ type: 'map-pick', id: inside[0].id }, '*');
+    })
+    .each(function (d) {
+      let t = this.querySelector('title');
+      if (!t) { t = document.createElementNS('http://www.w3.org/2000/svg', 'title'); this.appendChild(t); }
+      t.textContent = d.properties.SIG_KOR_NM;
+    });
+
+  const labelFeats = depth === 0 ? sido : (hotSig ? [hotSig] : localSigs);
+  gGeoLbl.selectAll('text').data(labelFeats, function (d) { return d.properties.SIG_CD || d.properties.CTPRVN_CD; })
+    .join('text')
+    .attr('class', 'geolbl')
+    .attr('text-anchor', 'middle')
+    .attr('transform', function (d) {
+      const c = path.centroid(d);
+      return 'translate(' + c[0] + ',' + (c[1] + (depth === 0 ? 14 : 4)) + ')';
+    })
+    .text(function (d) { return depth === 0 ? '' : d.properties.SIG_KOR_NM; });
+
+  const g = gPts.selectAll('g.pt').data(pts, function (d) { return d.id; }).join(function (enter) {
+    const e = enter.append('g').attr('class', 'pt');
+    e.append('circle').attr('class', 'bubble');
+    e.append('title');
+    e.append('text').attr('class', 'lbl');
+    return e;
+  });
+  g.attr('transform', function (d) {
+    const xy = proj([d.lng, d.lat]);
+    return 'translate(' + xy[0] + ',' + xy[1] + ')';
+  });
+  g.select('circle')
+    .attr('r', function (d) { return d.r; })
+    .attr('fill', function (d) { return d.color; })
+    .attr('opacity', function (d) { return d.dim ? 0.16 : (d.active ? 1 : 0.82); })
+    .attr('stroke', '#fff')
+    .attr('stroke-width', function (d) { return d.active ? 3 : 1.5; })
+    .style('filter', function (d) { return d.active ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.25))' : null; })
+    .on('click', function (ev, d) { parent.postMessage({ type: 'map-pick', id: d.id }, '*'); });
+  g.select('title').text(function (d) { return d.title; });
+  g.select('text')
+    .attr('x', function (d) { return d.r + 5; })
+    .attr('y', 4)
+    .attr('opacity', function (d) { return d.dim ? 0.3 : 1; })
+    .style('font-weight', function (d) { return d.active ? 700 : 400; })
+    .text(function (d) { return d.label || ''; });
+}
+
+window.addEventListener('message', function (ev) {
+  const m = ev.data;
+  if (m && m.type === 'map-points') { payload = m; draw(); }
+});
+window.addEventListener('resize', draw);
+</script>
+</body>
+</html>

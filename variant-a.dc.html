@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  body { margin:0; background:#f6f5f3; font-family:'Noto Sans KR', -apple-system, sans-serif; -webkit-font-smoothing:antialiased; }
+  a { color:#2f6fb3; text-decoration:none; }
+  a:hover { color:#1f4f83; }
+  *::-webkit-scrollbar { width:8px; }
+  *::-webkit-scrollbar-thumb { background:#d8d5d0; border-radius:4px; }
+</style>
+</helmet>
+<div style="min-height:100vh;padding:28px 32px 40px;color:#2b2a28;">
+  <div style="max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:16px;">
+
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;">
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <div style="font-size:12px;letter-spacing:0.12em;color:#8a8579;font-weight:500;">안 A · 집계 단위 세그먼트 + 지도 드릴다운</div>
+        <div style="font-size:26px;font-weight:700;letter-spacing:-0.02em;">연구·선도·중점학교 지정 현황</div>
+      </div>
+      <div style="display:flex;gap:6px;background:#eceae5;padding:4px;border-radius:10px;">
+        <div style="padding:8px 18px;border-radius:7px;background:#fff;font-size:14px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,0.06);">현황 지도</div>
+        <div style="padding:8px 18px;border-radius:7px;font-size:14px;font-weight:500;color:#7c7669;cursor:pointer;" style-hover="color:#2b2a28;">정책평가 결과</div>
+      </div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;font-weight:700;color:#8a8579;letter-spacing:0.04em;">집계 단위</span>
+        <div style="display:flex;background:#f1efea;border-radius:9px;padding:3px;">
+          <sc-for list="{{ scopeSeg }}" as="sg" hint-placeholder-count="2">
+            <div onClick="{{ sg.onClick }}" style="{{ sg.style }}">{{ sg.label }}</div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="width:1px;height:28px;background:#eae7e1;"></div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <span style="font-size:12px;font-weight:700;color:#8a8579;letter-spacing:0.04em;">유형</span>
+        <div style="display:flex;gap:6px;">
+          <sc-for list="{{ typeChips }}" as="chip" hint-placeholder-count="4">
+            <div onClick="{{ chip.onClick }}" style="{{ chip.style }}">
+              <span style="width:8px;height:8px;border-radius:50%;background:{{ chip.dot }};display:inline-block;"></span>
+              <span>{{ chip.label }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="flex:1;min-width:200px;display:flex;justify-content:flex-end;gap:10px;align-items:center;">
+        <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="현재 단위에서 검색" style="border:1px solid #e0dcd5;background:#fbfaf8;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;width:220px;outline:none;" style-focus="border-color:#b9c9dc;background:#fff;">
+        <div onClick="{{ onReset }}" style="font-size:12px;color:#8a8579;cursor:pointer;padding:8px 10px;border-radius:7px;" style-hover="background:#f2f0ec;color:#2b2a28;">초기화</div>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;gap:8px;padding:0 4px;">
+      <sc-for list="{{ crumbs }}" as="cr" hint-placeholder-count="1">
+        <div onClick="{{ cr.onClick }}" style="{{ cr.style }}">{{ cr.label }}</div>
+      </sc-for>
+      <span style="font-size:12px;color:#a39d92;">· {{ hintText }}</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:16px;align-items:stretch;">
+
+      <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:18px 20px 16px;display:flex;flex-direction:column;gap:14px;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;">
+          <div style="font-size:15px;font-weight:700;">{{ mapTitle }}</div>
+          <div style="font-size:12px;color:#8a8579;">원 크기 = 학교 수 · 원 클릭 시 하위 단위로 이동</div>
+        </div>
+        <div style="position:relative;flex:1;min-height:600px;border-radius:10px;background:repeating-linear-gradient(135deg,#f4f3f0 0 10px,#efeeea 10px 20px);border:1px solid #eae7e1;overflow:hidden;">
+          <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px;pointer-events:none;">
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:12px;color:#a39d92;">지도 데이터 연동 영역</div>
+            <div style="font-family:ui-monospace,Menlo,monospace;font-size:11px;color:#b5afa3;">시도 / 지원청 경계 폴리곤 조인</div>
+          </div>
+          <sc-for list="{{ dots }}" as="dot" hint-placeholder-count="12">
+            <div onClick="{{ dot.onClick }}" title="{{ dot.title }}" style="{{ dot.style }}"></div>
+          </sc-for>
+          <div style="position:absolute;left:16px;bottom:14px;display:flex;gap:14px;background:rgba(255,255,255,0.9);border:1px solid #eae7e1;border-radius:8px;padding:8px 12px;">
+            <sc-for list="{{ legend }}" as="l" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#5c574d;">
+                <span style="width:9px;height:9px;border-radius:50%;background:{{ l.color }};"></span>
+                <span>{{ l.label }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:16px;">
+        <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:18px 20px;">
+          <div style="font-size:13px;font-weight:700;color:#8a8579;letter-spacing:0.04em;margin-bottom:14px;">{{ countTitle }}</div>
+          <div style="display:flex;align-items:baseline;gap:8px;padding-bottom:14px;border-bottom:1px solid #f0eee9;">
+            <span style="font-size:38px;font-weight:700;letter-spacing:-0.03em;line-height:1;">{{ total }}</span>
+            <span style="font-size:13px;color:#8a8579;">개교 · {{ unitCount }}</span>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding-top:14px;">
+            <sc-for list="{{ counts }}" as="c" hint-placeholder-count="3">
+              <div style="display:flex;flex-direction:column;gap:4px;">
+                <div style="font-size:12px;color:#6b6558;">{{ c.label }}</div>
+                <div style="font-size:22px;font-weight:700;letter-spacing:-0.02em;color:{{ c.color }};">{{ c.value }}</div>
+                <div style="font-size:11px;color:#a39d92;">{{ c.share }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:18px 20px 12px;display:flex;flex-direction:column;min-height:0;">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:12px;">
+            <div style="font-size:13px;font-weight:700;color:#8a8579;letter-spacing:0.04em;">{{ listTitle }}</div>
+            <div style="font-size:12px;color:#a39d92;">{{ listCount }}건</div>
+          </div>
+          <div style="display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;max-height:520px;">
+            <sc-for list="{{ rows }}" as="r" hint-placeholder-count="8">
+              <div onClick="{{ r.onClick }}" style="{{ r.rowStyle }}">
+                <span style="width:8px;height:8px;border-radius:50%;background:{{ r.color }};flex:none;"></span>
+                <div style="flex:1;min-width:0;">
+                  <div style="font-size:13px;font-weight:500;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.name }}</div>
+                  <div style="font-size:11px;color:#a39d92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ r.sub }}</div>
+                </div>
+                <span style="{{ r.tagStyle }}">{{ r.tag }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="border-top:1px solid #f0eee9;margin-top:8px;padding:10px 0 4px;font-size:11px;color:#a39d92;text-align:right;">{{ footNote }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{}">
+class Component extends DCLogic {
+  state = { d: null, seg: 0, sido: null, office: null, type: '전체', query: '', sel: null };
+
+  componentDidMount() {
+    import('./gov-data.js').then((m) => this.setState({ d: m }));
+  }
+
+  renderVals() {
+    const self = this, s = this.state, d = s.d;
+    if (!d) return { legend: [], dots: [], rows: [], counts: [], typeChips: [], scopeSeg: [], crumbs: [] };
+    const C = d.C, TAG = d.TAG;
+    const cur = s.office ? 2 : (s.sido ? 1 : s.seg);
+    const q = s.query.trim();
+    const types = ['연구학교', '선도학교', '중점학교'];
+    const pickTypes = s.type === '전체' ? types : [s.type];
+    const sum = (o) => pickTypes.reduce((a, t) => a + o[t], 0);
+
+    const scopeSeg = ['교육청', '교육지원청'].map(function (l, i) {
+      const on = s.seg === i && !s.sido && !s.office;
+      return {
+        label: l, onClick: function () { self.setState({ seg: i, sido: null, office: null, sel: null }); },
+        style: 'padding:7px 16px;border-radius:7px;font-size:13px;cursor:pointer;'
+          + (on ? 'background:#fff;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,0.07);' : 'color:#7c7669;')
+      };
+    });
+
+    const typeChips = ['전체'].concat(types).map(function (t) {
+      const on = s.type === t;
+      return {
+        label: t, dot: t === '전체' ? '#b5afa3' : C[t],
+        onClick: function () { self.setState({ type: t }); },
+        style: 'display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer;'
+          + (on ? 'background:#2b2a28;color:#fff;font-weight:700;' : 'background:#f6f4f0;color:#5c574d;border:1px solid #ece9e3;')
+      };
+    });
+
+    const crumbs = [{ label: '전국', target: {} }];
+    if (s.sido) crumbs.push({ label: s.sido + '교육청', target: { sido: s.sido, office: null } });
+    if (s.office) crumbs.push({ label: s.office, target: { sido: s.sido, office: s.office } });
+    const crumbVals = crumbs.map(function (c, i) {
+      const last = i === crumbs.length - 1;
+      return {
+        label: (i ? '› ' : '') + c.label,
+        onClick: function () { self.setState(Object.assign({ seg: 0, sido: null, office: null, sel: null }, c.target)); },
+        style: 'font-size:12px;cursor:pointer;padding:4px 8px;border-radius:6px;'
+          + (last ? 'font-weight:700;background:#eceae5;' : 'color:#8a8579;')
+      };
+    });
+
+    let dotSrc, rows, listTitle, mapTitle, countTitle, unitCount, footNote, hintText, agg;
+    if (cur === 0) {
+      dotSrc = d.SIDO;
+      agg = d.SIDO;
+      mapTitle = '시도교육청별 분포 지도';
+      listTitle = '시도교육청 목록';
+      countTitle = '전국 지정 개수';
+      unitCount = '17개 교육청';
+      hintText = '교육청을 선택하면 지원청 단위로 내려갑니다';
+      footNote = '17개 시도교육청 · 클릭 시 지원청 드릴다운';
+      rows = d.SIDO.filter((x) => !q || x.name.indexOf(q) >= 0).map(function (x) {
+        return {
+          name: x.name + '교육청', sub: '지원청 ' + x.offices + '개',
+          tag: sum(x) + '개교', color: C.연구학교, obj: x,
+          go: function () { self.setState({ sido: x.name, office: null, sel: null }); }
+        };
+      });
+    } else if (cur === 1) {
+      dotSrc = s.sido ? d.OFFICES.filter((o) => o.region === s.sido) : d.OFFICES;
+      agg = dotSrc;
+      mapTitle = (s.sido ? s.sido + ' ' : '') + '교육지원청별 분포 지도';
+      listTitle = '교육지원청 목록';
+      countTitle = (s.sido ? s.sido + '교육청' : '전국') + ' 지정 개수';
+      unitCount = dotSrc.length + '개 지원청';
+      hintText = '지원청을 선택하면 학교 목록이 표시됩니다';
+      footNote = '실제 데이터 연동 시 176개 지원청 전체 표시';
+      rows = dotSrc.filter((x) => !q || x.name.indexOf(q) >= 0).map(function (x) {
+        return {
+          name: x.name, sub: x.region + ' · 연구 ' + x.연구학교 + ' 선도 ' + x.선도학교 + ' 중점 ' + x.중점학교,
+          tag: sum(x) + '개교', color: C.선도학교, obj: x,
+          go: function () { self.setState({ sido: x.region, office: x.name, sel: null }); }
+        };
+      });
+    } else {
+      const off = d.OFFICES.filter((o) => o.name === s.office);
+      dotSrc = off;
+      agg = off;
+      mapTitle = s.office + ' 학교 분포';
+      listTitle = '학교 목록';
+      countTitle = s.office + ' 지정 개수';
+      unitCount = '1개 지원청';
+      hintText = '상위 단위로 돌아가려면 위 경로를 누르세요';
+      footNote = '표본 데이터 · 실제 연동 시 전체 학교 표시';
+      rows = d.SCHOOLS.filter(function (x) {
+        if (x.office !== s.office) return false;
+        if (s.type !== '전체' && x.type !== s.type) return false;
+        return !q || x.name.indexOf(q) >= 0;
+      }).map(function (x) {
+        return {
+          name: x.name, sub: x.office + ' · ' + x.level, tag: x.type, color: C[x.type], school: x,
+          go: function () { self.setState({ sel: x.id }); }
+        };
+      });
+    }
+
+    const totalNum = agg.reduce((a, o) => a + sum(o), 0);
+    const counts = types.map(function (t) {
+      const v = agg.reduce((a, o) => a + o[t], 0);
+      const all = agg.reduce((a, o) => a + o.연구학교 + o.선도학교 + o.중점학교, 0) || 1;
+      return { label: t, value: v.toLocaleString(), color: C[t], share: Math.round(v / all * 100) + '%' };
+    });
+
+    const maxT = Math.max.apply(null, dotSrc.map((o) => o.연구학교 + o.선도학교 + o.중점학교)) || 1;
+    const dots = dotSrc.map(function (o) {
+      const t = o.연구학교 + o.선도학교 + o.중점학교;
+      const dom = types.reduce((a, b) => (o[b] > o[a] ? b : a), '연구학교');
+      const sz = 14 + Math.round(t / maxT * 30);
+      const on = s.type === '전체' || o[s.type] > 0;
+      return {
+        title: (o.name || '') + ' · ' + t + '개교',
+        onClick: function () {
+          if (cur === 0) self.setState({ sido: o.name, office: null });
+          else if (cur === 1) self.setState({ sido: o.region, office: o.name });
+        },
+        style: 'position:absolute;left:' + o.x + '%;top:' + o.y + '%;width:' + sz + 'px;height:' + sz
+          + 'px;margin:-' + sz / 2 + 'px 0 0 -' + sz / 2 + 'px;border-radius:50%;cursor:pointer;transition:all .18s;'
+          + 'background:' + C[dom] + ';opacity:' + (on ? 0.82 : 0.14) + ';'
+          + (cur === 2 ? 'box-shadow:0 0 0 4px rgba(255,255,255,0.9),0 0 0 7px ' + C[dom] + '33;' : '')
+      };
+    });
+
+    return {
+      scopeSeg, typeChips, crumbs: crumbVals, dots, counts,
+      legend: types.map((t) => ({ label: t, color: C[t] })),
+      mapTitle, listTitle, countTitle, unitCount, footNote, hintText,
+      total: totalNum.toLocaleString(), listCount: rows.length,
+      query: s.query,
+      rows: rows.map(function (r) {
+        const on = r.school && s.sel === r.school.id;
+        return {
+          name: r.name, sub: r.sub, tag: r.tag, color: r.color, onClick: r.go,
+          rowStyle: 'display:flex;align-items:center;gap:10px;padding:10px 8px;border-radius:8px;cursor:pointer;'
+            + (on ? 'background:#f4f2ee;' : ''),
+          tagStyle: 'flex:none;font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;background:'
+            + (TAG[r.tag] || '#f2f0ec') + ';color:' + (d.C[r.tag] || '#6b6558') + ';'
+        };
+      }),
+      onQuery: function (e) { self.setState({ query: e.target.value }); },
+      onReset: function () { self.setState({ type: '전체', query: '', sido: null, office: null, seg: 0, sel: null }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
