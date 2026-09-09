@@ -1,5 +1,5 @@
-export const C = { 연구학교: '#4a90d9', 선도학교: '#5fa052', 중점학교: '#c8862a' };
-export const TAG = { 연구학교: '#eaf2fb', 선도학교: '#edf5ea', 중점학교: '#fbf1e2' };
+export const C = { 연구학교: '#1c589c', 선도학교: '#228738', 중점학교: '#9e6a00' };
+export const TAG = { 연구학교: '#eef2f7', 선도학교: '#e5f2e8', 중점학교: '#fbf1dd' };
 
 export const OFFICES = [
   ['서울 노원', '서울', 37.654, 127.056, 12, 18, 7],

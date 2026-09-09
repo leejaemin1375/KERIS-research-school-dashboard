@@ -9,32 +9,47 @@
 <x-dc>
 <helmet>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-gov-dynamic-subset.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-  body { margin:0; background:#f6f5f3; font-family:'Noto Sans KR', -apple-system, sans-serif; -webkit-font-smoothing:antialiased; }
-  a { color:#2f6fb3; text-decoration:none; }
-  a:hover { color:#1f4f83; }
-  *::-webkit-scrollbar { width:8px; }
-  *::-webkit-scrollbar-thumb { background:#d8d5d0; border-radius:4px; }
+  body { margin:0; background:#f4f5f6; color:#1e2124;
+    font-family:'Pretendard GOV Variable','Pretendard Variable',-apple-system,sans-serif;
+    font-size:15px; line-height:1.55; -webkit-font-smoothing:antialiased; }
+  a { color:#1c589c; text-decoration:none; }
+  a:hover { color:#063a74; text-decoration:underline; }
+  *::-webkit-scrollbar { width:10px; height:10px; }
+  *::-webkit-scrollbar-thumb { background:#b1b8be; }
+  *::-webkit-scrollbar-track { background:#e7e9eb; }
 </style>
 </helmet>
-<div style="min-height:100vh;padding:28px 32px 40px;color:#2b2a28;">
-  <div style="max-width:1440px;margin:0 auto;display:flex;flex-direction:column;gap:16px;">
-
-    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;">
-      <div style="display:flex;flex-direction:column;gap:6px;">
-        <div style="font-size:12px;letter-spacing:0.12em;color:#8a8579;font-weight:500;">교육정책 모니터링</div>
-        <div style="font-size:26px;font-weight:700;letter-spacing:-0.02em;">연구·선도·중점학교 지정 현황</div>
+<div style="min-height:100vh;display:flex;flex-direction:column;">
+  <div style="background:#052b57;color:#ccd6e3;font-size:13px;padding:7px 32px;display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;">
+    <span>교육부 &middot; 연구·선도·중점학교 정책분석시스템</span>
+    <span>내부 행정용 &middot; 자료 기준일 2026-08-31</span>
+  </div>
+  <div style="background:#063a74;border-bottom:3px solid #3fa654;">
+    <div style="max-width:1560px;margin:0 auto;padding:0 32px;display:flex;align-items:stretch;justify-content:space-between;gap:24px;flex-wrap:wrap;">
+      <div style="display:flex;align-items:center;gap:14px;padding:16px 0;">
+        <span style="display:flex;align-items:center;justify-content:center;width:30px;height:30px;border:1px solid #ffffff;color:#ffffff;font-size:14px;font-weight:700;letter-spacing:-0.02em;">교</span>
+        <span style="color:#ffffff;font-size:18px;font-weight:700;letter-spacing:-0.01em;">연구·선도·중점학교 정책분석</span>
       </div>
-      <div style="display:flex;gap:6px;background:#eceae5;padding:4px;border-radius:10px;">
-        <div style="padding:8px 18px;border-radius:7px;background:#fff;font-size:14px;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,0.06);">현황 지도</div>
-        <a href="./policy-evaluation.dc.html" style="padding:8px 18px;border-radius:7px;font-size:14px;font-weight:500;color:#7c7669;cursor:pointer;" style-hover="color:#2b2a28;">정책평가 결과</a>
+      <div style="display:flex;align-items:stretch;">
+        <div style="display:flex;align-items:center;padding:0 22px;font-size:15.5px;font-weight:700;color:#ffffff;background:#0a4785;border-bottom:3px solid #ffffff;margin-bottom:-3px;">현황 지도</div>
+        <a href="./policy-evaluation.dc.html" style="display:flex;align-items:center;padding:0 22px;font-size:15.5px;font-weight:500;color:#b9c8db;border-bottom:3px solid transparent;margin-bottom:-3px;" style-hover="color:#ffffff;text-decoration:none;">정책평가 결과</a>
       </div>
     </div>
+  </div>
+  <div style="flex:1;max-width:1560px;width:100%;margin:0 auto;padding:22px 32px 0;box-sizing:border-box;display:flex;flex-direction:column;gap:14px;">
 
-    <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
+    <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap;border-bottom:2px solid #063a74;padding-bottom:8px;">
+      <div style="font-size:22px;font-weight:700;letter-spacing:-0.02em;">지정 현황 지도</div>
+      <div style="font-size:14px;color:#4a5157;">시도교육청 → 교육지원청 → 학교 단위 지정 분포</div>
+    </div>
+
+    <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:16px 18px;display:flex;align-items:center;gap:20px;flex-wrap:wrap;">
       <div style="display:flex;align-items:center;gap:8px;">
-        <span style="font-size:12px;font-weight:700;color:#8a8579;letter-spacing:0.04em;">유형</span>
+        <span style="font-size:15px;font-weight:700;color:#1e2124;">유형</span>
         <div style="display:flex;gap:6px;">
           <sc-for list="{{ typeChips }}" as="chip" hint-placeholder-count="4">
             <div onClick="{{ chip.onClick }}" style="{{ chip.style }}">
@@ -44,10 +59,10 @@
           </sc-for>
         </div>
       </div>
-      <div style="width:1px;height:28px;background:#eae7e1;"></div>
+      <div style="width:1px;height:28px;background:#dfe3e7;"></div>
       <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-size:12px;font-weight:700;color:#8a8579;letter-spacing:0.04em;">학교급</span>
-        <select value="{{ level }}" onChange="{{ onLevel }}" style="appearance:none;border:1px solid #e0dcd5;background:#fbfaf8;border-radius:8px;padding:9px 14px;font-size:13px;font-family:inherit;color:#2b2a28;min-width:120px;">
+        <span style="font-size:15px;font-weight:700;color:#1e2124;">학교급</span>
+        <select value="{{ level }}" onChange="{{ onLevel }}" style="appearance:none;border:1px solid #cdd1d5;background:#ffffff;border-radius:2px;padding:11px 16px;font-size:15px;font-family:inherit;color:#1e2124;min-width:120px;">
           <option value="전체">학교급 전체</option>
           <option value="초">초등학교</option>
           <option value="중">중학교</option>
@@ -55,57 +70,56 @@
         </select>
       </div>
       <div style="flex:1 1 320px;min-width:280px;display:flex;justify-content:flex-end;gap:10px;align-items:center;">
-        <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="학교명 · 교육지원청 검색" style="border:1px solid #e0dcd5;background:#fbfaf8;border-radius:8px;padding:9px 12px;font-size:13px;font-family:inherit;flex:1 1 auto;max-width:240px;min-width:160px;outline:none;" style-focus="border-color:#b9c9dc;background:#fff;">
-        <div onClick="{{ onReset }}" style="font-size:12px;color:#8a8579;cursor:pointer;padding:8px 10px;border-radius:7px;white-space:nowrap;flex:none;" style-hover="background:#f2f0ec;color:#2b2a28;">초기화</div>
+        <input value="{{ query }}" onChange="{{ onQuery }}" placeholder="학교명 · 교육지원청 검색" style="border:1px solid #cdd1d5;background:#ffffff;border-radius:2px;padding:11px 14px;font-size:15px;font-family:inherit;flex:1 1 auto;max-width:240px;min-width:160px;outline:none;" style-focus="border-color:#1c589c;background:#fff;">
+        <div onClick="{{ onReset }}" style="font-size:14px;color:#4a5157;cursor:pointer;padding:9px 12px;border-radius:2px;white-space:nowrap;flex:none;" style-hover="background:#eef2f7;color:#1e2124;">초기화</div>
       </div>
     </div>
 
     <div style="display:grid;grid-template-columns:0.8fr 1.55fr;gap:16px;align-items:stretch;">
 
-      <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
+      <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:16px 20px;display:flex;flex-direction:column;gap:12px;">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
-          <div style="font-size:12.5px;font-weight:700;color:#8a8579;letter-spacing:0.03em;">{{ natLabel }}</div>
-          <div style="font-size:11px;color:#a39d92;white-space:nowrap;">{{ natShare }}</div>
+          <div style="font-size:15.5px;font-weight:700;color:#1e2124;">{{ natLabel }}</div>
         </div>
         <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:18px;">
         <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
-          <div style="position:relative;width:132px;height:132px;flex:none;">
-            <svg viewBox="0 0 148 148" style="width:132px;height:132px;transform:rotate(-90deg);display:block;">
-              <circle cx="74" cy="74" r="56" fill="none" stroke="#f2f0ec" stroke-width="20"></circle>
+          <div style="position:relative;width:172px;height:172px;flex:none;">
+            <svg viewBox="0 0 148 148" style="width:172px;height:172px;transform:rotate(-90deg);display:block;">
+              <circle cx="74" cy="74" r="56" fill="none" stroke="#eef2f7" stroke-width="22"></circle>
               <sc-for list="{{ donut }}" as="a" hint-placeholder-count="3">
-                <circle cx="74" cy="74" r="56" fill="none" stroke="{{ a.color }}" stroke-width="20" stroke-linecap="butt" stroke-dasharray="{{ a.dash }}" stroke-dashoffset="{{ a.offset }}" opacity="{{ a.opacity }}"></circle>
+                <circle cx="74" cy="74" r="56" fill="none" stroke="{{ a.color }}" stroke-width="22" stroke-linecap="butt" stroke-dasharray="{{ a.dash }}" stroke-dashoffset="{{ a.offset }}" opacity="{{ a.opacity }}"></circle>
               </sc-for>
             </svg>
             <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;">
-              <div style="font-size:28px;font-weight:700;letter-spacing:-0.03em;line-height:1;">{{ natTotal }}</div>
-              <div style="font-size:11px;color:#8a8579;">개교</div>
+              <div style="font-size:38px;font-weight:700;letter-spacing:-0.03em;line-height:1;">{{ natTotal }}</div>
+              <div style="font-size:14px;color:#4a5157;">개교</div>
             </div>
           </div>
           <div style="flex:1 1 130px;min-width:130px;display:flex;flex-direction:column;gap:10px;">
             <sc-for list="{{ typeBars }}" as="tb" hint-placeholder-count="3">
               <div style="display:flex;align-items:center;gap:8px;">
-                <span style="width:9px;height:9px;border-radius:3px;flex:none;background:{{ tb.color }};"></span>
-                <span style="font-size:12.5px;color:#5c574d;flex:1;min-width:0;white-space:nowrap;">{{ tb.label }}</span>
-                <span style="font-size:15px;font-weight:700;letter-spacing:-0.02em;">{{ tb.value }}</span>
+                <span style="width:12px;height:12px;border-radius:0;flex:none;background:{{ tb.color }};"></span>
+                <span style="font-size:15.5px;color:#1e2124;flex:1;min-width:0;white-space:nowrap;">{{ tb.label }}</span>
+                <span style="font-size:21px;font-weight:700;letter-spacing:-0.02em;">{{ tb.value }}</span>
               </div>
             </sc-for>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:9px;border-top:1px solid #f0eee9;padding-top:14px;">
+        <div style="display:flex;flex-direction:column;gap:9px;border-top:1px solid #e2e5e8;padding-top:14px;">
           <sc-for list="{{ natStats }}" as="st" hint-placeholder-count="3">
             <div style="display:flex;align-items:baseline;gap:10px;">
-              <span style="font-size:12px;color:#6b6558;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ st.label }}</span>
-              <span style="font-size:14px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ st.value }}</span>
+              <span style="font-size:14.5px;color:#3a4045;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ st.label }}</span>
+              <span style="font-size:17px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ st.value }}</span>
             </div>
           </sc-for>
         </div>
         </div>
       </div>
 
-        <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
+        <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;">
-          <div style="font-size:12.5px;font-weight:700;color:#8a8579;letter-spacing:0.03em;min-width:0;">{{ distTitle }}</div>
-          <div style="display:flex;gap:4px;background:#eceae5;padding:4px;border-radius:9px;flex:none;">
+          <div style="font-size:15.5px;font-weight:700;color:#1e2124;min-width:0;">{{ distTitle }}</div>
+          <div style="display:flex;gap:4px;background:#e7e9eb;padding:4px;border-radius:2px;flex:none;">
             <sc-for list="{{ distTabs }}" as="t" hint-placeholder-count="3">
               <div onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</div>
             </sc-for>
@@ -113,16 +127,15 @@
         </div>
 
         <sc-if value="{{ isLevelTab }}" hint-placeholder-val="{{ true }}">
-          <div style="flex:1;min-height:0;display:flex;flex-direction:column;justify-content:space-around;gap:14px;">
+          <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
             <sc-for list="{{ levelBars }}" as="lb" hint-placeholder-count="3">
-              <div style="display:flex;flex-direction:column;gap:6px;">
+              <div onClick="{{ lb.onClick }}" style="{{ lb.rowStyle }}">
                 <div style="display:flex;align-items:baseline;gap:8px;">
-                  <span style="font-size:12.5px;color:#5c574d;flex:1;">{{ lb.label }}</span>
-                  <span style="font-size:14px;font-weight:700;letter-spacing:-0.01em;">{{ lb.value }}</span>
-                  <span style="font-size:11.5px;color:#6b6558;width:36px;text-align:right;">{{ lb.share }}</span>
+                  <span style="font-size:16px;color:#1e2124;flex:1;">{{ lb.label }}</span>
+                  <span style="font-size:21px;font-weight:700;letter-spacing:-0.01em;">{{ lb.value }}</span>
                 </div>
-                <div style="height:10px;border-radius:5px;background:#f4f3f0;overflow:hidden;">
-                  <div style="height:100%;border-radius:5px;width:{{ lb.pct }}%;background:{{ lb.color }};"></div>
+                <div style="height:18px;border-radius:0;background:#f4f5f6;overflow:hidden;">
+                  <div style="height:100%;border-radius:0;width:{{ lb.pct }}%;background:{{ lb.color }};"></div>
                 </div>
               </div>
             </sc-for>
@@ -133,10 +146,9 @@
           <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
             <sc-for list="{{ officeBars }}" as="ob" hint-placeholder-count="6">
               <div onClick="{{ ob.onClick }}" style="{{ ob.rowStyle }}">
-                <span style="font-size:11.5px;color:#a39d92;width:16px;flex:none;">{{ ob.rank }}</span>
-                <span style="font-size:12.5px;color:#4c473f;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ob.label }}</span>
-                <span style="font-size:14px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ ob.value }}</span>
-                <span style="font-size:11.5px;color:#6b6558;width:38px;text-align:right;flex:none;">{{ ob.share }}</span>
+                <span style="font-size:14px;color:#5b6469;width:20px;flex:none;">{{ ob.rank }}</span>
+                <span style="font-size:15.5px;color:#1e2124;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ob.label }}</span>
+                <span style="font-size:20px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ ob.value }}</span>
               </div>
             </sc-for>
           </div>
@@ -148,21 +160,16 @@
               <sc-for list="{{ ranks }}" as="r" hint-placeholder-count="8">
                 <div onClick="{{ r.onClick }}" style="{{ r.rowStyle }}">
                   <span style="{{ r.nameStyle }}">{{ r.name }}</span>
-                  <span style="flex:1;min-width:0;display:flex;height:11px;border-radius:3px;overflow:hidden;background:#f4f2ee;">
+                  <span style="flex:1;min-width:0;display:flex;height:16px;border-radius:0;overflow:hidden;background:#eef2f7;">
                     <span style="{{ r.barStyle }}">
                       <sc-for list="{{ r.segs }}" as="g" hint-placeholder-count="3">
                         <span style="{{ g.style }}"></span>
                       </sc-for>
                     </span>
                   </span>
-                  <span style="font-size:12px;font-weight:700;width:34px;text-align:right;flex:none;">{{ r.total }}</span>
-                  <span style="{{ r.flagStyle }}">{{ r.flag }}</span>
+                  <span style="font-size:16px;font-weight:700;width:42px;text-align:right;flex:none;">{{ r.total }}</span>
                 </div>
               </sc-for>
-            </div>
-            <div style="border-top:1px solid #f0eee9;padding-top:10px;display:flex;justify-content:space-between;gap:10px;font-size:11.5px;color:#6b6558;">
-              <span>최다 <strong style="color:#2b2a28;font-weight:700;">{{ rankTop }}</strong></span>
-              <span>최소 <strong style="color:#2b2a28;font-weight:700;">{{ rankBottom }}</strong></span>
             </div>
           </div>
         </sc-if>
@@ -172,7 +179,7 @@
 
     <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:stretch;">
 
-      <div style="flex:1 1 560px;min-width:0;background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:18px 20px 16px;display:flex;flex-direction:column;gap:12px;">
+      <div style="flex:1 1 560px;min-width:0;background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:18px 20px 16px;display:flex;flex-direction:column;gap:12px;">
         <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;">
           <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap;">
             <sc-for list="{{ crumbs }}" as="cr" hint-placeholder-count="1">
@@ -183,41 +190,33 @@
             <sc-if value="{{ showUnitToggle }}" hint-placeholder-val="{{ true }}">
               <div onClick="{{ onUnitToggle }}" style="{{ unitToggleStyle }}">{{ unitToggleLabel }}</div>
             </sc-if>
-            <div style="font-size:12px;color:#8a8579;white-space:nowrap;">{{ mapHint }}</div>
           </div>
         </div>
-        <div style="position:relative;flex:1;min-height:560px;border-radius:10px;background:#f4f3f0;border:1px solid #eae7e1;overflow:hidden;">
+        <div style="position:relative;flex:1;min-height:620px;border-radius:2px;background:#f4f5f6;border:1px solid #dfe3e7;overflow:hidden;">
           <iframe ref="{{ mapRef }}" src="./korea-map.html" title="대한민국 지정학교 분포 지도" style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
-          <div style="position:absolute;left:16px;bottom:14px;display:flex;gap:14px;background:rgba(255,255,255,0.9);border:1px solid #eae7e1;border-radius:8px;padding:8px 12px;">
+          <div style="position:absolute;left:16px;bottom:14px;display:flex;gap:14px;background:rgba(255,255,255,0.9);border:1px solid #dfe3e7;border-radius:2px;padding:10px 14px;">
             <sc-for list="{{ legend }}" as="l" hint-placeholder-count="3">
-              <div style="display:flex;align-items:center;gap:6px;font-size:12px;color:#5c574d;">
-                <span style="width:9px;height:9px;border-radius:50%;background:{{ l.color }};"></span>
+              <div style="display:flex;align-items:center;gap:8px;font-size:14.5px;color:#3a4045;">
+                <span style="width:12px;height:12px;border-radius:50%;background:{{ l.color }};"></span>
                 <span>{{ l.label }}</span>
               </div>
             </sc-for>
           </div>
           <sc-if value="{{ showFocus }}" hint-placeholder-val="{{ true }}">
-            <div style="position:absolute;right:16px;top:16px;background:#fff;border:1px solid #e6e3dd;border-radius:10px;padding:12px 14px;box-shadow:0 6px 18px rgba(0,0,0,0.06);min-width:180px;">
-              <div style="font-size:11px;color:#a39d92;margin-bottom:4px;">{{ focus.kind }}</div>
-              <div style="font-size:13px;font-weight:700;margin-bottom:6px;">{{ focus.name }}</div>
-              <div style="font-size:12px;color:#6b6558;line-height:1.7;">연구 {{ focus.a }} · 선도 {{ focus.b }} · 중점 {{ focus.c }}</div>
+            <div style="position:absolute;right:16px;top:16px;background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:12px 14px;min-width:180px;">
+              <div style="font-size:13.5px;color:#5b6469;margin-bottom:3px;">{{ focus.kind }}</div>
+              <div style="font-size:19px;font-weight:700;margin-bottom:7px;letter-spacing:-0.015em;">{{ focus.name }}</div>
+              <div style="font-size:14.5px;color:#3a4045;line-height:1.7;">연구 {{ focus.a }} · 선도 {{ focus.b }} · 중점 {{ focus.c }}</div>
             </div>
           </sc-if>
         </div>
       </div>
 
-      <div style="flex:1 1 420px;max-width:500px;min-width:0;display:flex;flex-direction:column;gap:16px;">
-        <div style="background:#fff;border:1px solid #e6e3dd;border-radius:14px;padding:18px 20px 12px;display:flex;flex-direction:column;min-height:0;flex:1;">
+      <div style="flex:1 1 420px;min-width:340px;display:flex;flex-direction:column;gap:16px;">
+        <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:18px 20px 12px;display:flex;flex-direction:column;min-height:0;flex:1;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
-            <div style="font-size:13px;font-weight:700;color:#8a8579;letter-spacing:0.04em;">계층 탐색</div>
-            <div onClick="{{ onCollapse }}" style="font-size:11px;color:#8a8579;cursor:pointer;padding:4px 8px;border-radius:6px;" style-hover="background:#f2f0ec;color:#2b2a28;">모두 접기</div>
-          </div>
-          <div style="display:flex;align-items:center;gap:6px;font-size:11px;color:#b5afa3;margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #f0eee9;">
-            <span style="font-weight:700;color:#8a8579;">교육청</span>
-            <span>›</span>
-            <span>교육지원청</span>
-            <span>›</span>
-            <span>학교</span>
+            <div style="font-size:15.5px;font-weight:700;color:#1e2124;">계층 탐색</div>
+            <div onClick="{{ onCollapse }}" style="font-size:14px;color:#4a5157;cursor:pointer;padding:6px 10px;border-radius:2px;" style-hover="background:#eef2f7;color:#1e2124;">모두 접기</div>
           </div>
           <div style="display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;flex:1;min-height:0;">
             <sc-for list="{{ tree }}" as="n" hint-placeholder-count="10">
@@ -227,15 +226,20 @@
                 <span style="{{ n.dotStyle }}"></span>
                 <div style="flex:1;min-width:0;">
                   <div style="{{ n.nameStyle }}">{{ n.name }}</div>
-                  <div style="font-size:11px;color:#a39d92;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ n.sub }}</div>
+                  <div style="{{ n.subStyle }}">{{ n.sub }}</div>
                 </div>
                 <span style="{{ n.tagStyle }}">{{ n.tag }}</span>
               </div>
             </sc-for>
           </div>
-          <div style="border-top:1px solid #f0eee9;margin-top:8px;padding:10px 0 4px;font-size:11px;color:#a39d92;text-align:right;">{{ footNote }}</div>
         </div>
       </div>
+    </div>
+  </div>
+  <div style="margin-top:26px;background:#063a74;color:#b9c8db;border-top:3px solid #3fa654;">
+    <div style="max-width:1560px;margin:0 auto;padding:18px 32px;display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;font-size:13.5px;line-height:1.7;">
+      <span>교육부 교육정책 모니터링 &middot; 연구·선도·중점학교 정책분석시스템</span>
+      <span>지정 현황 자료 출처 시도교육청 제출자료 &middot; 문의 교육정책평가과</span>
     </div>
   </div>
 </div>
@@ -282,23 +286,28 @@ class Component extends DCLogic {
 
   renderVals() {
     const self = this, s = this.state, d = s.d;
-    if (!d) return { legend: [], tree: [], counts: [], donut: [], ranks: [], typeChips: [], crumbs: [], typeBars: [], levelBars: [], officeBars: [],
+    if (!d) return { legend: [], tree: [], counts: [], donut: [], ranks: [], typeChips: [], crumbs: [], typeBars: [], levelBars: [], officeBars: [], distTabs: [], distTitle: '', distNote: '', isLevelTab: true, isOfficeTab: false, isRegionTab: false, natStats: [], showUnitToggle: false, unitToggleLabel: '', unitToggleStyle: '', level: '전체', query: '',
       natLabel: '', natShare: '', natTotal: '', natNote: '', levelNote: '', officeTitle: '', officeNote: '',
       mapHint: '', rankTitle: '', rankHint: '', rankTop: '', rankBottom: '', footNote: '', focus: {}, mapRef: this.mapRef };
     const C = d.C, TAG = d.TAG, types = ['연구학교', '선도학교', '중점학교'];
     const q = s.query.trim();
     const pick = s.type === '전체' ? types : [s.type];
-    const sum = (o) => pick.reduce((a, t) => a + o[t], 0);
+    const MIX = { 연구학교: [0.38, 0.34, 0.28], 선도학교: [0.44, 0.32, 0.24], 중점학교: [0.14, 0.26, 0.60] };
+    const LVI = { 초: 0, 중: 1, 고: 2 };
+    const lvW = function (t) { return s.level === '전체' ? 1 : (MIX[t] || [0.34, 0.33, 0.33])[LVI[s.level]]; };
+    const sum = (o) => Math.round(pick.reduce((a, t) => a + o[t] * lvW(t), 0));
+    const rawSum = (o) => pick.reduce((a, t) => a + o[t], 0);
+    const aggT = (src, t) => Math.round(src.reduce((a, o) => a + o[t] * lvW(t), 0));
 
     const atNation = !s.openSido && !s.openOffice;
 
     const typeChips = ['전체'].concat(types).map(function (t) {
       const on = s.type === t;
       return {
-        label: t, dot: t === '전체' ? '#b5afa3' : C[t],
-        onClick: function () { self.setState({ type: t }); },
-        style: 'display:flex;align-items:center;gap:7px;padding:8px 14px;border-radius:8px;font-size:13px;cursor:pointer;'
-          + (on ? 'background:#2b2a28;color:#fff;font-weight:700;' : 'background:#f6f4f0;color:#5c574d;border:1px solid #ece9e3;')
+        label: t, dot: t === '전체' ? '#8d959b' : C[t],
+        onClick: function () { self.setState({ type: on ? '전체' : t }); },
+        style: 'display:flex;align-items:center;gap:8px;padding:10px 17px;border-radius:2px;font-size:15px;cursor:pointer;'
+          + (on ? 'background:#063a74;color:#fff;font-weight:700;' : 'background:#ffffff;color:#3a4045;border:1px solid #cdd1d5;')
       };
     });
 
@@ -310,8 +319,8 @@ class Component extends DCLogic {
       return {
         label: (i ? '› ' : '') + c.label,
         onClick: function () { self.setState(Object.assign({ sel: null }, c.t)); },
-        style: 'font-size:12px;cursor:pointer;padding:5px 9px;border-radius:6px;white-space:nowrap;'
-          + (last ? 'font-weight:700;background:#f2f0ec;' : 'color:#8a8579;')
+        style: 'font-size:15px;cursor:pointer;padding:7px 12px;border-radius:2px;white-space:nowrap;'
+          + (last ? 'font-weight:700;background:#eef2f7;' : 'color:#4a5157;')
       };
     });
 
@@ -332,26 +341,26 @@ class Component extends DCLogic {
       const openS = s.openSido === sd.name;
       if (q && !openS && !matches(sd) && !offices.some(matches) && !offices.some((o) => schoolsOf(o.name).length)) return;
       tree.push({
-        depth: 0, kind: '교육청', name: sd.name + '교육청', sub: '지원청 ' + sd.offices + '개 · 연구 ' + sd.연구학교 + ' 선도 ' + sd.선도학교 + ' 중점 ' + sd.중점학교,
-        tag: sum(sd).toLocaleString() + '개교', color: '#2b2a28', open: openS, hasKids: true, sel: openS && !s.openOffice,
+        depth: 0, kind: '교육청', name: sd.name + '교육청', sub: '지원청 ' + sd.offices + '개',
+        tag: sum(sd).toLocaleString() + '개교', color: '#063a74', open: openS, hasKids: true, sel: openS && !s.openOffice,
         onClick: function () { self.setState({ openSido: openS ? null : sd.name, openOffice: null, sel: null, seg: openS ? 0 : 1 }); }
       });
       if (!openS) return;
       offices.forEach(function (o) {
         const openO = s.openOffice === o.name;
         tree.push({
-          depth: 1, kind: '지원청', name: o.name, sub: '연구 ' + o.연구학교 + ' · 선도 ' + o.선도학교 + ' · 중점 ' + o.중점학교,
+          depth: 1, kind: '지원청', name: o.name, sub: '',
           tag: sum(o) + '개교', color: C.선도학교, open: openO, hasKids: true, sel: openO,
           onClick: function () { self.setState({ openOffice: openO ? null : o.name, sel: null }); }
         });
         if (!openO) return;
         const sch = schoolsOf(o.name);
         if (!sch.length) {
-          tree.push({ depth: 2, kind: '학교', name: '표시할 학교 없음', sub: '필터 조건을 완화해 보세요', tag: '', color: '#d8d5d0', hasKids: false, onClick: function () {} });
+          tree.push({ depth: 2, kind: '학교', name: '표시할 학교 없음', sub: '필터 조건을 완화해 보세요', tag: '', color: '#b1b8be', hasKids: false, onClick: function () {} });
         }
         sch.forEach(function (x) {
           tree.push({
-            depth: 2, kind: '학교', name: x.name, sub: LV[x.level] + ' · ' + o.short, tag: x.type, color: C[x.type], hasKids: false,
+            depth: 2, kind: '학교', name: x.name, sub: LV[x.level], tag: x.type, color: C[x.type], hasKids: false,
             sel: s.sel === x.id, onClick: function () { self.setState({ sel: x.id }); }
           });
         });
@@ -405,18 +414,20 @@ class Component extends DCLogic {
     this._regions = d.SIDO.map(function (x) { return x.name; });
     this._depth = s.openOffice ? 2 : (s.openSido ? 1 : 0);
     this._sido = s.openSido || null;
-    this._focus = s.openOffice && dotSrc[0] ? { lat: dotSrc[0].lat, lng: dotSrc[0].lng } : null;
+    const selSchool = s.sel != null ? d.SCHOOLS.filter((x) => x.id === s.sel)[0] : null;
+    this._focus = selSchool ? { lat: selSchool.lat, lng: selSchool.lng }
+      : (s.openOffice && dotSrc[0] ? { lat: dotSrc[0].lat, lng: dotSrc[0].lng } : null);
 
-    const allSum = aggSrc.reduce((a, o) => a + o.연구학교 + o.선도학교 + o.중점학교, 0) || 1;
+    const allSum = types.reduce((a, t) => a + aggT(aggSrc, t), 0) || 1;
     const counts = types.map(function (t) {
-      const v = aggSrc.reduce((a, o) => a + o[t], 0);
+      const v = aggT(aggSrc, t);
       const on = s.type === t;
       return {
         label: t, value: v.toLocaleString(), color: C[t], raw: v,
         share: Math.round(v / allSum * 100) + '%',
         onClick: function () { self.setState({ type: on ? '전체' : t }); },
-        rowStyle: 'display:flex;align-items:center;gap:9px;padding:5px 7px;margin:-5px -7px;border-radius:7px;cursor:pointer;'
-          + (on ? 'background:#f4f2ee;font-weight:700;' : 'opacity:' + (s.type === '전체' ? 1 : 0.42) + ';')
+        rowStyle: 'display:flex;align-items:center;gap:9px;padding:5px 7px;margin:-5px -7px;border-radius:2px;cursor:pointer;'
+          + (on ? 'background:#eef2f7;font-weight:700;' : 'opacity:' + (s.type === '전체' ? 1 : 0.42) + ';')
       };
     });
 
@@ -441,17 +452,17 @@ class Component extends DCLogic {
       return {
         name: r.name, total: r.v.toLocaleString(),
         onClick: function () { self.pick(r.key); },
-        rowStyle: 'display:flex;align-items:center;gap:10px;padding:5px 7px;border-radius:7px;cursor:pointer;'
-          + (isSel ? 'background:#f4f2ee;' : ''),
-        nameStyle: 'font-size:12px;width:' + (s.openSido ? 68 : 34) + 'px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'
-          + (i === 0 ? 'font-weight:700;' : 'color:#5c574d;'),
+        rowStyle: 'display:flex;align-items:center;gap:12px;padding:8px 7px;border-radius:2px;cursor:pointer;'
+          + (isSel ? 'background:#eef2f7;' : ''),
+        nameStyle: 'font-size:15px;width:' + (s.openSido ? 78 : 40) + 'px;flex:none;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'
+          + (i === 0 ? 'font-weight:700;' : 'color:#3a4045;'),
         barStyle: 'display:flex;width:' + Math.max(r.v / rankMax * 100, 2) + '%;height:100%;',
         segs: pick.map(function (t) {
           return { style: 'flex:' + (r.o[t] || 0.0001) + ';background:' + C[t] + ';' + (s.type === '전체' || s.type === t ? '' : 'opacity:0.25;') };
         }),
         flag: low ? '부족' : (i === 0 ? '최다' : ''),
         flagStyle: 'flex:none;width:34px;text-align:right;font-size:10px;font-weight:700;white-space:nowrap;color:'
-          + (low ? '#b2452f' : (i === 0 ? '#8a8579' : 'transparent')) + ';'
+          + (low ? '#de3412' : (i === 0 ? '#4a5157' : 'transparent')) + ';'
       };
     });
 
@@ -462,30 +473,36 @@ class Component extends DCLogic {
     const withAny = offScope.filter((o) => sum(o) > 0).length;
     const avgPer = offScope.length ? scopeTotal / offScope.length : 0;
     const topType = types.reduce(function (a, t) {
-      return offScope.reduce((x, o) => x + o[t], 0) > offScope.reduce((x, o) => x + o[a], 0) ? t : a;
+      return aggT(offScope, t) > aggT(offScope, a) ? t : a;
     }, '연구학교');
-    const topTypeV = offScope.reduce((x, o) => x + o[topType], 0);
+    const topTypeV = aggT(offScope, topType);
     const sortedOff = offScope.map((o) => sum(o)).sort((a, b) => a - b);
     const gapRatio = sortedOff.length > 1 && sortedOff[0] > 0
       ? (sortedOff[sortedOff.length - 1] / sortedOff[0]).toFixed(1) + '배' : '—';
     const typeBars = types.map(function (t) {
-      const v = offScope.reduce((x, o) => x + o[t], 0);
+      const v = aggT(offScope, t);
       return { label: t, value: v.toLocaleString(), pct: Math.round(v / (scopeTotal || 1) * 100), color: C[t] };
     });
 
-    const LEVEL_MIX = { 연구학교: [0.38, 0.34, 0.28], 선도학교: [0.44, 0.32, 0.24], 중점학교: [0.14, 0.26, 0.60] };
     const lvNames = ['초등학교', '중학교', '고등학교'];
+    const lvKeys = ['초', '중', '고'];
     const lvTotals = [0, 0, 0];
-    types.forEach(function (t) {
+    pick.forEach(function (t) {
       const v = offScope.reduce((x, o) => x + o[t], 0);
-      (LEVEL_MIX[t] || [0.34, 0.33, 0.33]).forEach(function (r, i) { lvTotals[i] += Math.round(v * r); });
+      (MIX[t] || [0.34, 0.33, 0.33]).forEach(function (r, i) { lvTotals[i] += Math.round(v * r); });
     });
     const lvSum = lvTotals.reduce((a, b) => a + b, 0) || 1;
     const lvMax = Math.max.apply(null, lvTotals) || 1;
     const levelBars = lvNames.map(function (n, i) {
+      const on = s.level === '전체' || s.level === lvKeys[i];
       return {
         label: n, value: lvTotals[i].toLocaleString(), share: Math.round(lvTotals[i] / lvSum * 100) + '%',
-        pct: Math.round(lvTotals[i] / lvMax * 100), color: ['#7a9bbf', '#8fae86', '#c8a86a'][i]
+        pct: Math.round(lvTotals[i] / lvMax * 100),
+        color: on ? ['#1c589c', '#228738', '#9e6a00'][i] : '#cdd1d5',
+        onClick: function () { self.setState({ level: s.level === lvKeys[i] ? '전체' : lvKeys[i] }); },
+        rowStyle: 'display:flex;flex-direction:column;justify-content:center;gap:8px;cursor:pointer;flex:1;min-height:0;padding:12px 6px;'
+          + (i ? 'border-top:1px solid #e2e5e8;' : '')
+          + (s.level === lvKeys[i] ? 'background:#eef2f7;' : (on ? '' : 'opacity:0.6;'))
       };
     });
 
@@ -498,7 +515,7 @@ class Component extends DCLogic {
         share: Math.round(r.v / (scopeTotal || 1) * 100) + '%',
         onClick: function () { self.pick('office:' + r.full); },
         rowStyle: 'display:flex;align-items:center;gap:10px;padding:11px 4px;cursor:pointer;flex:1;min-height:0;'
-          + (ri ? 'border-top:1px solid #f4f3f0;' : '')
+          + (ri ? 'border-top:1px solid #f4f5f6;' : '')
       };
     });
 
@@ -521,8 +538,8 @@ class Component extends DCLogic {
         const on = i === distIdx;
         return {
           label: t.label, onClick: function () { self.setState({ dist: i }); },
-          style: 'padding:6px 14px;border-radius:7px;font-size:12.5px;cursor:pointer;white-space:nowrap;'
-            + (on ? 'background:#fff;color:#2b2a28;font-weight:700;box-shadow:0 1px 2px rgba(0,0,0,0.06);' : 'color:#7c7669;font-weight:500;')
+          style: 'padding:8px 16px;border-radius:2px;font-size:14.5px;cursor:pointer;white-space:nowrap;'
+            + (on ? 'background:#fff;color:#1e2124;font-weight:700;' : 'color:#3a4045;font-weight:500;')
         };
       }),
       natTotal: scopeTotal.toLocaleString(),
@@ -546,8 +563,8 @@ class Component extends DCLogic {
       rankBottom: rankRows.length ? rankRows[rankRows.length - 1].name + ' ' + rankRows[rankRows.length - 1].v.toLocaleString() + '개교' : '-',
       showUnitToggle: atNation,
       unitToggleLabel: s.seg === 1 ? '지원청 단위 보기 ✓' : '지원청 단위 보기',
-      unitToggleStyle: 'font-size:12px;cursor:pointer;padding:5px 10px;border-radius:7px;white-space:nowrap;border:1px solid '
-        + (s.seg === 1 ? '#2b2a28;background:#2b2a28;color:#fff;font-weight:700;' : '#e6e3dd;color:#7c7669;'),
+      unitToggleStyle: 'font-size:14px;cursor:pointer;padding:8px 13px;border-radius:2px;white-space:nowrap;border:1px solid '
+        + (s.seg === 1 ? '#063a74;background:#063a74;color:#fff;font-weight:700;' : '#cdd1d5;color:#3a4045;'),
       onUnitToggle: function () { self.setState({ seg: s.seg === 1 ? 0 : 1 }); },
       legend: types.map((t) => ({ label: t, color: C[t] })),
       mapRef: this.mapRef,
@@ -565,26 +582,41 @@ class Component extends DCLogic {
         return {
           name: n.name, sub: n.sub, tag: n.tag, caret: n.hasKids ? (n.open ? '▾' : '▸') : '',
           onClick: n.onClick,
-          rowStyle: 'display:flex;align-items:center;gap:8px;padding:' + (n.depth === 0 ? '11px 8px' : '9px 8px')
-            + ';padding-left:' + pad + 'px;border-radius:8px;cursor:pointer;position:relative;'
-            + (n.sel ? 'background:#f4f2ee;' : '')
-            + (n.depth === 0 ? 'border-top:1px solid #f4f2ee;' : ''),
-          railStyle: n.depth ? 'position:absolute;left:' + (pad - 11) + 'px;top:0;bottom:0;width:1px;background:#eae7e1;'
+          rowStyle: 'display:flex;align-items:center;gap:10px;padding:' + (n.depth === 0 ? '14px 8px' : '12px 8px')
+            + ';padding-left:' + pad + 'px;border-radius:2px;cursor:pointer;position:relative;'
+            + (n.sel ? 'background:#eef2f7;' : '')
+            + (n.depth === 0 ? 'border-top:1px solid #eef2f7;' : ''),
+          railStyle: n.depth ? 'position:absolute;left:' + (pad - 11) + 'px;top:0;bottom:0;width:1px;background:#dfe3e7;'
             : 'display:none;',
-          caretStyle: 'width:12px;font-size:10px;color:#a39d92;flex:none;',
-          dotStyle: 'width:' + (n.depth === 0 ? 9 : 7) + 'px;height:' + (n.depth === 0 ? 9 : 7)
+          caretStyle: 'width:14px;font-size:12px;color:#5b6469;flex:none;',
+          subStyle: n.sub ? 'font-size:13.5px;color:#5b6469;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;' : 'display:none;',
+          dotStyle: 'width:' + (n.depth === 0 ? 11 : 9) + 'px;height:' + (n.depth === 0 ? 11 : 9)
             + 'px;border-radius:50%;flex:none;background:' + n.color + ';'
             + (n.depth === 1 ? 'box-shadow:0 0 0 2px #fff;' : ''),
-          nameStyle: 'font-size:' + (n.depth === 0 ? 14 : 13) + 'px;font-weight:' + (n.depth === 0 ? 700 : 500)
+          nameStyle: 'font-size:' + (n.depth === 0 ? 17 : 15.5) + 'px;font-weight:' + (n.depth === 0 ? 700 : 500)
             + ';white-space:nowrap;overflow:hidden;text-overflow:ellipsis;'
-            + (n.depth === 2 ? 'color:#4a453d;' : ''),
-          tagStyle: 'flex:none;font-size:11px;font-weight:700;padding:4px 8px;border-radius:6px;background:'
-            + (TAG[n.tag] || (n.depth === 0 ? '#f1efea' : 'transparent')) + ';color:'
-            + (C[n.tag] || (n.depth === 0 ? '#2b2a28' : '#8a8579')) + ';'
+            + (n.depth === 2 ? 'color:#1e2124;' : ''),
+          tagStyle: 'flex:none;font-size:13.5px;font-weight:700;padding:5px 10px;border-radius:2px;background:'
+            + (TAG[n.tag] || (n.depth === 0 ? '#eef2f7' : 'transparent')) + ';color:'
+            + (C[n.tag] || (n.depth === 0 ? '#063a74' : '#4a5157')) + ';'
         };
       }),
       onLevel: function (e) { self.setState({ level: e.target.value }); },
-      onQuery: function (e) { self.setState({ query: e.target.value }); },
+      onQuery: function (e) {
+        const v = e.target.value, t = v.trim(), st = { query: v };
+        if (t.length >= 2) {
+          const sc = d.SCHOOLS.filter(function (x) {
+            return x.name.indexOf(t) >= 0 && (s.type === '전체' || x.type === s.type) && (s.level === '전체' || x.level === s.level);
+          })[0];
+          const off = sc ? d.OFFICES.filter((o) => o.name === sc.office)[0]
+            : d.OFFICES.filter((o) => o.name.indexOf(t) >= 0 || o.short.indexOf(t) >= 0)[0];
+          if (off) {
+            st.openSido = off.region; st.openOffice = off.name; st.seg = 1;
+            st.sel = sc ? sc.id : null;
+          }
+        } else if (!t) { st.sel = null; }
+        self.setState(st);
+      },
       onCollapse: function () { self.setState({ openSido: null, openOffice: null, sel: null, seg: 0 }); },
       onReset: function () { self.setState({ type: '전체', level: '전체', query: '', openSido: null, openOffice: null, seg: 0, sel: null }); }
     };

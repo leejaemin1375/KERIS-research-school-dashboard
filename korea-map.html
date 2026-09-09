@@ -5,20 +5,20 @@
 <title>korea map layer</title>
 <script src="https://unpkg.com/d3@7.9.0/dist/d3.min.js" integrity="sha384-CjloA8y00+1SDAUkjs099PVfnY2KmDC2BZnws9kh8D/lX1s46w6EPhpXdqMfjK6i" crossorigin="anonymous"></script>
 <style>
-  html, body { margin:0; height:100%; background:#f4f3f0; overflow:hidden;
-    font-family:'Noto Sans KR', -apple-system, sans-serif; }
+  html, body { margin:0; height:100%; background:#f4f5f6; overflow:hidden;
+    font-family:'Pretendard GOV Variable','Pretendard Variable',-apple-system,sans-serif; }
   svg { display:block; width:100%; height:100%; }
-  .sido { fill:#e9e7e1; stroke:#d3cfc7; stroke-width:0.7; }
+  .sido { fill:#e3e7ea; stroke:#b1b8be; stroke-width:0.7; }
   .sido.pick { cursor:pointer; }
-  .sido.pick:hover { fill:#dedbd3; }
-  .sido.nodata { fill:#f0eee9; stroke:#e4e1da; pointer-events:none; }
-  .sido.ghost { fill:#efedE8; stroke:#e2dfd8; pointer-events:none; }
-  .sig { fill:#ecebe5; stroke:#d8d4cb; stroke-width:0.6; cursor:pointer; }
-  .sig:hover { fill:#e1ded5; }
-  .sig.on { fill:#e6e2d7; stroke:#b9b3a6; stroke-width:1.2; }
+  .sido.pick:hover { fill:#d5dbe0; }
+  .sido.nodata { fill:#eef0f2; stroke:#cdd1d5; pointer-events:none; }
+  .sido.ghost { fill:#edeff1; stroke:#cdd1d5; pointer-events:none; }
+  .sig { fill:#e8ebee; stroke:#b1b8be; stroke-width:0.6; cursor:pointer; }
+  .sig:hover { fill:#dbe1e6; }
+  .sig.on { fill:#dde5ee; stroke:#1c589c; stroke-width:1.2; }
   .bubble { cursor:pointer; }
-  .lbl { font-size:10.5px; fill:#7c7669; pointer-events:none; }
-  .geolbl { font-size:10px; fill:#a39d92; pointer-events:none; }
+  .lbl { font-size:13px; font-weight:600; fill:#1e2124; pointer-events:none; }
+  .geolbl { font-size:12px; fill:#4a5157; pointer-events:none; }
 </style>
 </head>
 <body>
@@ -138,7 +138,7 @@ function draw() {
     .attr('opacity', function (d) { return d.dim ? 0.16 : (d.active ? 1 : 0.82); })
     .attr('stroke', '#fff')
     .attr('stroke-width', function (d) { return d.active ? 3 : 1.5; })
-    .style('filter', function (d) { return d.active ? 'drop-shadow(0 2px 6px rgba(0,0,0,0.25))' : null; })
+    .style('filter', null)
     .on('click', function (ev, d) { parent.postMessage({ type: 'map-pick', id: d.id }, '*'); });
   g.select('title').text(function (d) { return d.title; });
   g.select('text')
