@@ -75,9 +75,9 @@
       </div>
     </div>
 
-    <div style="display:grid;grid-template-columns:0.8fr 1.55fr;gap:16px;align-items:start;">
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:flex-start;">
 
-      <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+      <div style="flex:1 1 300px;min-width:0;background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
           <div style="font-size:15.5px;font-weight:700;color:#1e2124;">{{ natLabel }}</div>
         </div>
@@ -116,43 +116,40 @@
         </div>
       </div>
 
-        <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:16px 20px;display:flex;flex-direction:column;gap:14px;">
-        <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;">
-          <div style="font-size:15.5px;font-weight:700;color:#1e2124;min-width:0;">{{ distTitle }}</div>
-          <div style="display:flex;gap:4px;background:#e7e9eb;padding:4px;border-radius:2px;flex:none;">
-            <sc-for list="{{ distTabs }}" as="t" hint-placeholder-count="3">
-              <div onClick="{{ t.onClick }}" style="{{ t.style }}">{{ t.label }}</div>
-            </sc-for>
-          </div>
+      <div style="flex:1 1 300px;min-width:0;background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+          <div style="font-size:15.5px;font-weight:700;color:#1e2124;min-width:0;">{{ levelTitle }}</div>
+          <div style="font-size:13px;color:#5b6469;white-space:nowrap;flex:none;">{{ levelNote }}</div>
         </div>
-
-        <sc-if value="{{ isLevelTab }}" hint-placeholder-val="{{ true }}">
-          <div style="display:flex;flex-direction:column;">
-            <sc-for list="{{ levelBars }}" as="lb" hint-placeholder-count="3">
-              <div onClick="{{ lb.onClick }}" style="{{ lb.rowStyle }}">
-                <div style="display:flex;align-items:baseline;gap:8px;">
-                  <span style="font-size:15px;color:#1e2124;flex:1;">{{ lb.label }}</span>
-                  <span style="font-size:19px;font-weight:700;letter-spacing:-0.01em;">{{ lb.value }}</span>
-                </div>
-                <div style="height:12px;border-radius:0;background:#f4f5f6;overflow:hidden;">
-                  <div style="height:100%;border-radius:0;width:{{ lb.pct }}%;background:{{ lb.color }};"></div>
-                </div>
+        <div style="display:flex;flex-direction:column;">
+          <sc-for list="{{ levelBars }}" as="lb" hint-placeholder-count="3">
+            <div onClick="{{ lb.onClick }}" style="{{ lb.rowStyle }}">
+              <div style="display:flex;align-items:baseline;gap:8px;">
+                <span style="font-size:15px;color:#1e2124;flex:1;">{{ lb.label }}</span>
+                <span style="font-size:19px;font-weight:700;letter-spacing:-0.01em;">{{ lb.value }}</span>
               </div>
-            </sc-for>
-          </div>
-        </sc-if>
-
-        <sc-if value="{{ isOfficeTab }}" hint-placeholder-val="{{ false }}">
-          <div style="display:flex;flex-direction:column;">
-            <sc-for list="{{ officeBars }}" as="ob" hint-placeholder-count="6">
-              <div style="{{ ob.rowStyle }}">
-                <span style="font-size:13.5px;color:#5b6469;width:20px;flex:none;">{{ ob.rank }}</span>
-                <span style="font-size:15px;color:#1e2124;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ob.label }}</span>
-                <span style="font-size:18px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ ob.value }}</span>
+              <div style="height:12px;border-radius:0;background:#f4f5f6;overflow:hidden;">
+                <div style="height:100%;border-radius:0;width:{{ lb.pct }}%;background:{{ lb.color }};"></div>
               </div>
-            </sc-for>
-          </div>
-        </sc-if>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="flex:1 1 300px;min-width:0;background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:14px 18px;display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;">
+          <div style="font-size:15.5px;font-weight:700;color:#1e2124;min-width:0;">{{ officeRankTitle }}</div>
+          <div style="font-size:13px;color:#5b6469;white-space:nowrap;flex:none;">{{ officeNote }}</div>
+        </div>
+        <div style="display:flex;flex-direction:column;">
+          <sc-for list="{{ officeBars }}" as="ob" hint-placeholder-count="6">
+            <div style="{{ ob.rowStyle }}">
+              <span style="font-size:13.5px;color:#5b6469;width:20px;flex:none;">{{ ob.rank }}</span>
+              <span style="font-size:15px;color:#1e2124;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ob.label }}</span>
+              <span style="font-size:18px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ ob.value }}</span>
+            </div>
+          </sc-for>
+        </div>
       </div>
 
   </div>
@@ -172,7 +169,7 @@
             </sc-if>
           </div>
         </div>
-        <div style="position:relative;flex:1;min-height:620px;border-radius:2px;background:#f4f5f6;border:1px solid #dfe3e7;overflow:hidden;">
+        <div style="position:relative;flex:1;min-height:460px;border-radius:2px;background:#f4f5f6;border:1px solid #dfe3e7;overflow:hidden;">
           <iframe ref="{{ mapRef }}" src="./korea-map.html" title="대한민국 지정학교 분포 지도" style="position:absolute;inset:0;width:100%;height:100%;border:0;"></iframe>
           <div style="position:absolute;left:16px;bottom:14px;display:flex;gap:14px;background:rgba(255,255,255,0.9);border:1px solid #dfe3e7;border-radius:2px;padding:10px 14px;">
             <sc-for list="{{ legend }}" as="l" hint-placeholder-count="3">
@@ -198,7 +195,7 @@
             <div style="font-size:15.5px;font-weight:700;color:#1e2124;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ rankTitle }}</div>
             <div style="font-size:13px;color:#5b6469;white-space:nowrap;flex:none;">{{ rankHint }}</div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:4px;max-height:212px;overflow-y:auto;overflow-x:hidden;padding-right:8px;">
+          <div style="display:flex;flex-direction:column;gap:4px;max-height:176px;overflow-y:auto;overflow-x:hidden;padding-right:8px;">
             <sc-for list="{{ ranks }}" as="r" hint-placeholder-count="8">
               <div onClick="{{ r.onClick }}" style="{{ r.rowStyle }}">
                 <span style="{{ r.nameStyle }}">{{ r.name }}</span>
@@ -214,12 +211,12 @@
             </sc-for>
           </div>
         </div>
-        <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:18px 20px 12px;display:flex;flex-direction:column;min-height:0;flex:1;">
+        <div style="background:#fff;border:1px solid #cdd1d5;border-radius:2px;padding:16px 20px 12px;display:flex;flex-direction:column;flex:none;">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:6px;">
             <div style="font-size:15.5px;font-weight:700;color:#1e2124;">계층 탐색</div>
             <div onClick="{{ onCollapse }}" style="font-size:14px;color:#4a5157;cursor:pointer;padding:6px 10px;border-radius:2px;" style-hover="background:#eef2f7;color:#1e2124;">모두 접기</div>
           </div>
-          <div style="display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;flex:1;min-height:0;">
+          <div style="display:flex;flex-direction:column;overflow-y:auto;overflow-x:hidden;max-height:300px;">
             <sc-for list="{{ tree }}" as="n" hint-placeholder-count="10">
               <div onClick="{{ n.onClick }}" style="{{ n.rowStyle }}">
                 <span style="{{ n.railStyle }}"></span>
@@ -247,7 +244,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{}">
 class Component extends DCLogic {
-  state = { d: null, dist: 0, seg: 0, openSido: null, openOffice: null, type: '전체', level: '전체', query: '', sel: null };
+  state = { d: null, seg: 0, openSido: null, openOffice: null, type: '전체', level: '전체', query: '', sel: null };
 
   mapRef = React.createRef();
 
@@ -287,7 +284,7 @@ class Component extends DCLogic {
 
   renderVals() {
     const self = this, s = this.state, d = s.d;
-    if (!d) return { legend: [], tree: [], counts: [], donut: [], ranks: [], typeChips: [], crumbs: [], typeBars: [], levelBars: [], officeBars: [], distTabs: [], distTitle: '', distNote: '', isLevelTab: true, isOfficeTab: false, isRegionTab: false, natStats: [], showUnitToggle: false, unitToggleLabel: '', unitToggleStyle: '', level: '전체', query: '',
+    if (!d) return { legend: [], tree: [], counts: [], donut: [], ranks: [], typeChips: [], crumbs: [], typeBars: [], levelBars: [], officeBars: [], levelTitle: '', officeRankTitle: '', natStats: [], showUnitToggle: false, unitToggleLabel: '', unitToggleStyle: '', level: '전체', query: '',
       natLabel: '', natShare: '', natTotal: '', natNote: '', levelNote: '', officeTitle: '', officeNote: '',
       mapHint: '', rankTitle: '', rankHint: '', rankTop: '', rankBottom: '', footNote: '', focus: {}, mapRef: this.mapRef };
     const C = d.C, TAG = d.TAG, types = ['연구학교', '선도학교', '중점학교'];
@@ -533,26 +530,11 @@ class Component extends DCLogic {
     });
 
     const scopeName = s.openOffice || (s.openSido ? s.openSido : '전국');
-    const DIST = [
-      { label: '학교급', title: scopeName + ' 학교급별 지정 분포', note: '최다 ' + lvNames[lvTotals.indexOf(lvMax)] },
-      { label: '교육지원청', title: (s.openSido ? s.openSido + ' ' : '전국 ') + '교육지원청별 지정 순위 (상위 6)',
-        note: offRows.length > 1 ? '상위–하위 격차 ' + gapRatio : '단일 지원청' }
-    ];
-    const distIdx = Math.min(s.dist, DIST.length - 1);
 
     return {
       typeBars, levelBars, officeBars,
-      isLevelTab: distIdx === 0, isOfficeTab: distIdx === 1, isRegionTab: distIdx === 2,
-      distNote: DIST[distIdx].note,
-      distTitle: DIST[distIdx].title,
-      distTabs: DIST.map(function (t, i) {
-        const on = i === distIdx;
-        return {
-          label: t.label, onClick: function () { self.setState({ dist: i }); },
-          style: 'padding:8px 16px;border-radius:2px;font-size:14.5px;cursor:pointer;white-space:nowrap;'
-            + (on ? 'background:#fff;color:#1e2124;font-weight:700;' : 'color:#3a4045;font-weight:500;')
-        };
-      }),
+      levelTitle: scopeName + ' 학교급별 지정 분포',
+      officeRankTitle: (s.openSido ? s.openSido + ' ' : '전국 ') + '교육지원청별 지정 순위',
       natTotal: scopeTotal.toLocaleString(),
       natLabel: (s.openOffice || (s.openSido ? s.openSido : '전국')) + ' 지정 학교 수',
       natStats: [
