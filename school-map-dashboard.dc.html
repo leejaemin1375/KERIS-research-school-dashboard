@@ -145,7 +145,7 @@
         <sc-if value="{{ isOfficeTab }}" hint-placeholder-val="{{ false }}">
           <div style="flex:1;min-height:0;display:flex;flex-direction:column;">
             <sc-for list="{{ officeBars }}" as="ob" hint-placeholder-count="6">
-              <div onClick="{{ ob.onClick }}" style="{{ ob.rowStyle }}">
+              <div style="{{ ob.rowStyle }}">
                 <span style="font-size:14px;color:#5b6469;width:20px;flex:none;">{{ ob.rank }}</span>
                 <span style="font-size:15.5px;color:#1e2124;flex:1;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">{{ ob.label }}</span>
                 <span style="font-size:20px;font-weight:700;letter-spacing:-0.01em;white-space:nowrap;">{{ ob.value }}</span>
@@ -342,7 +342,7 @@ class Component extends DCLogic {
       if (q && !openS && !matches(sd) && !offices.some(matches) && !offices.some((o) => schoolsOf(o.name).length)) return;
       tree.push({
         depth: 0, kind: '교육청', name: sd.name + '교육청', sub: '지원청 ' + sd.offices + '개',
-        tag: sum(sd).toLocaleString() + '개교', color: '#063a74', open: openS, hasKids: true, sel: openS && !s.openOffice,
+        tag: sum(sd).toLocaleString() + '개교', color: '#8d959b', open: openS, hasKids: true, sel: openS && !s.openOffice,
         onClick: function () { self.setState({ openSido: openS ? null : sd.name, openOffice: null, sel: null, seg: openS ? 0 : 1 }); }
       });
       if (!openS) return;
@@ -350,7 +350,7 @@ class Component extends DCLogic {
         const openO = s.openOffice === o.name;
         tree.push({
           depth: 1, kind: '지원청', name: o.name, sub: '',
-          tag: sum(o) + '개교', color: C.선도학교, open: openO, hasKids: true, sel: openO,
+          tag: sum(o) + '개교', color: '#8d959b', open: openO, hasKids: true, sel: openO,
           onClick: function () { self.setState({ openOffice: openO ? null : o.name, sel: null }); }
         });
         if (!openO) return;
@@ -399,13 +399,12 @@ class Component extends DCLogic {
           };
         })
       : dotSrc.map(function (o) {
-          const dom = s.type !== '전체' ? s.type : types.reduce((a, b) => (o[b] > o[a] ? b : a), '연구학교');
           const isSido = !o.region;
           return {
             id: (isSido ? 'sido:' + o.name : 'office:' + o.name),
             lat: o.lat, lng: o.lng,
             r: 7 + Math.round(sum(o) / maxT * 16),
-            color: C[dom], dim: s.type !== '전체' && o[s.type] === 0,
+            color: '#8d959b', dim: s.type !== '전체' && o[s.type] === 0,
             active: !!(focusObj && o.name === focusObj.name && (s.openSido || s.openOffice)),
             label: isSido ? o.name : o.short,
             title: (isSido ? o.name + '교육청' : o.name) + ' · ' + sum(o) + '개교'
@@ -513,8 +512,7 @@ class Component extends DCLogic {
       return {
         label: r.name, value: r.v.toLocaleString(), rank: ri + 1,
         share: Math.round(r.v / (scopeTotal || 1) * 100) + '%',
-        onClick: function () { self.pick('office:' + r.full); },
-        rowStyle: 'display:flex;align-items:center;gap:10px;padding:11px 4px;cursor:pointer;flex:1;min-height:0;'
+        rowStyle: 'display:flex;align-items:center;gap:10px;padding:11px 4px;flex:1;min-height:0;'
           + (ri ? 'border-top:1px solid #f4f5f6;' : '')
       };
     });
@@ -598,7 +596,7 @@ class Component extends DCLogic {
             + (n.depth === 2 ? 'color:#1e2124;' : ''),
           tagStyle: 'flex:none;font-size:13.5px;font-weight:700;padding:5px 10px;border-radius:2px;background:'
             + (TAG[n.tag] || (n.depth === 0 ? '#eef2f7' : 'transparent')) + ';color:'
-            + (C[n.tag] || (n.depth === 0 ? '#063a74' : '#4a5157')) + ';'
+            + (C[n.tag] || (n.depth === 0 ? '#4a5157' : '#4a5157')) + ';'
         };
       }),
       onLevel: function (e) { self.setState({ level: e.target.value }); },
