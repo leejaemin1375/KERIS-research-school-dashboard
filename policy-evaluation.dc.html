@@ -427,8 +427,8 @@ class Component extends DCLogic {
       strip: [
         { label: '유의 개선 지표', value: sigs.length + ' / ' + G.metrics.length },
         { label: '평균 개선률', value: (sigs.reduce((a, m) => a + m.rel, 0) / (sigs.length || 1)).toFixed(1) + '%' },
-        { label: '처리군', value: G.n[0].toLocaleString() + '교' },
-        { label: '비교군', value: G.n[1].toLocaleString() + '교' },
+        { label: G.key + '(처리군)', value: G.n[0].toLocaleString() + '교' },
+        { label: '일반학교(비교군)', value: G.n[1].toLocaleString() + '교' },
         { label: '분석방법', value: 'PSM 1:1' }
       ].map(function (x, i) {
         return { label: x.label, value: x.value, valueStyle: MONO + 'font-size:' + (i < 2 ? '30px' : '21px') + ';font-weight:700;letter-spacing:-0.02em;color:' + (i < 2 ? '#063a74' : '#1e2124') + ';white-space:nowrap;' };
